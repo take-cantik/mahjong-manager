@@ -1,4 +1,4 @@
-import { User } from '@line/bot-sdk'
+import { User } from '../Entities/User'
 
 export interface UserRepositoryInterface {
   getUser: (lineId: string) => Promise<User | null>
