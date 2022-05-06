@@ -15,9 +15,8 @@ const getRankValueList = (people: 3 | 4): number[] => {
   }
 }
 
-export const newRate = (myRate: number, otherRates: number[], people: 3 | 4, rank: number, round: 1 | 2) => {
+export const rateDiff = (myRate: number, otherRates: number[], people: 3 | 4, rank: number, round: 1 | 2) => {
   const rankValueList = getRankValueList(people)
   const fluctuationValue: number = (rateAverage(otherRates) - myRate) / 80
-  const addValue = Math.floor(((rankValueList[rank - 1] + fluctuationValue) / 10) * round)
-  return myRate + addValue
+  return Math.floor(((rankValueList[rank - 1] + fluctuationValue) / 10) * round)
 }
