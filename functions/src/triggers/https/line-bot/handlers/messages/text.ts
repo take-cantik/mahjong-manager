@@ -5,6 +5,7 @@ import { getCurrentTime } from '~/utils/day'
 import { lineClient, makeReplyMessage } from '~/utils/line'
 import { errorLogger } from '~/utils/util'
 import { selectGame } from '../../notice-messages/flexMessage'
+import { v4 as uuidv4 } from 'uuid'
 
 // *********
 // main関数
@@ -20,7 +21,8 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
 
     if (state.currentState === 0 && text === '記録開始') {
       const docId = await resultRepository.setTime(getCurrentTime())
-      // await lineClient.replyMessage(event.replyToken, selectGame(docId))
+      const uuid = uuidv4()
+      await lineClient.replyMessage(event.replyToken, selectGame(docId, uuid))
     }
     /*
       「記録」かなんかで state === 1
