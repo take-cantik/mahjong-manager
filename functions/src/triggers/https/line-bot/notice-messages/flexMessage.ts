@@ -28,7 +28,7 @@ export const selectGame = (docId: string, uuid: string): FlexMessage => {
             action: {
               type: 'postback',
               label: '四人東',
-              data: postbackData('game', '四人東', uuid, docId),
+              data: postbackData('game', '4-1', uuid, docId),
               displayText: '四人東'
             }
           },
@@ -40,7 +40,7 @@ export const selectGame = (docId: string, uuid: string): FlexMessage => {
             action: {
               type: 'postback',
               label: '四人南',
-              data: postbackData('game', '四人南', uuid, docId),
+              data: postbackData('game', '4-2', uuid, docId),
               displayText: '四人南'
             }
           },
@@ -52,7 +52,7 @@ export const selectGame = (docId: string, uuid: string): FlexMessage => {
             action: {
               type: 'postback',
               label: '三人東',
-              data: postbackData('game', '三人東', uuid, docId),
+              data: postbackData('game', '3-1', uuid, docId),
               displayText: '三人東'
             }
           },
@@ -64,7 +64,7 @@ export const selectGame = (docId: string, uuid: string): FlexMessage => {
             action: {
               type: 'postback',
               label: '三人南',
-              data: postbackData('game', '三人南', uuid, docId),
+              data: postbackData('game', '3-2', uuid, docId),
               displayText: '三人南'
             }
           }
