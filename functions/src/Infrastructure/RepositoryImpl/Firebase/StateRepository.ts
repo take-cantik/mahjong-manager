@@ -19,6 +19,15 @@ export class StateRepository implements StateRepositoryInterface {
     }
   }
 
+  async addState(state: State): Promise<void> {
+    try {
+      await db.collection('state').doc('bot-state').set(state)
+    } catch (err) {
+      errorLogger(err)
+      throw new Error('getState')
+    }
+  }
+
   async changeState(newState: State): Promise<void> {
     try {
       await db.collection('state').doc('bot-state').update(newState)
