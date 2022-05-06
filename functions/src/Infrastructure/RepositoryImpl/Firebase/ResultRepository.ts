@@ -2,7 +2,7 @@ import { ResultRepositoryInterface } from '~/Domains/Reopsitories/ResultReposito
 import { db } from '~/utils/firebase'
 import { errorLogger } from '~/utils/util'
 
-export class RedsultRepository implements ResultRepositoryInterface {
+export class ResultRepository implements ResultRepositoryInterface {
   async getRecentDocId(): Promise<string> {
     try {
       const res = await db.collection('result').orderBy('time', 'desc').limit(1).get()
@@ -15,28 +15,19 @@ export class RedsultRepository implements ResultRepositoryInterface {
 
   async setTime(docId: string, time: string): Promise<void> {
     try {
-      await db.collection('result').doc(docId).update({ time: time })
+      await db.collection('result').doc(docId).update({ time })
     } catch (err) {
       errorLogger(err)
       throw new Error('setTime')
     }
   }
 
-  async setPeople(docId: string, people: 3 | 4): Promise<void> {
+  async setGame(docId: string, people: 3 | 4, round: 1 | 2): Promise<void> {
     try {
-      await db.collection('result').doc(docId).update({ people: people })
+      await db.collection('result').doc(docId).update({ people, round })
     } catch (err) {
       errorLogger(err)
       throw new Error('setPeople')
-    }
-  }
-
-  async setRound(docId: string, round: 1 | 2): Promise<void> {
-    try {
-      await db.collection('result').doc(docId).update({ round })
-    } catch (err) {
-      errorLogger(err)
-      throw new Error('setRound')
     }
   }
 
