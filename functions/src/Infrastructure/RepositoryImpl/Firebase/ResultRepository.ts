@@ -13,9 +13,11 @@ export class ResultRepository implements ResultRepositoryInterface {
     }
   }
 
-  async setTime(docId: string, time: string): Promise<void> {
+  async setTime(time: string): Promise<string> {
     try {
-      await db.collection('result').doc(docId).update({ time })
+      const doc = db.collection('result').doc()
+      await doc.set({ time })
+      return doc.id
     } catch (err) {
       errorLogger(err)
       throw new Error('setTime')
