@@ -1,6 +1,10 @@
 import { MessageEvent, TextEventMessage } from '@line/bot-sdk'
+import { ResultRepository } from '~/Infrastructure/RepositoryImpl/Firebase/ResultRepository'
+import { StateRepository } from '~/Infrastructure/RepositoryImpl/Firebase/StateRepository'
+import { getCurrentTime } from '~/utils/day'
 import { lineClient, makeReplyMessage } from '~/utils/line'
 import { errorLogger } from '~/utils/util'
+import { selectGame } from '../../notice-messages/flexMessage'
 
 // *********
 // main関数
@@ -9,8 +13,15 @@ import { errorLogger } from '~/utils/util'
 export const messageTextHandler = async (event: MessageEvent): Promise<void> => {
   try {
     const { text } = event.message as TextEventMessage
+    const stateRepository = new StateRepository()
+    const resultRepository = new ResultRepository()
 
-    // state === 0
+    const state = await stateRepository.getCurrentState()
+
+    if (state.currentState === 0 && text === '記録開始') {
+      const docId = await resultRepository.setTime(getCurrentTime())
+      // await lineClient.replyMessage(event.replyToken, selectGame(docId))
+    }
     /*
       「記録」かなんかで state === 1
       3 or 4麻 -> 半荘 or 東風 を選択するflexMessage
