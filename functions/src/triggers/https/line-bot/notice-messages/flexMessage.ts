@@ -1,7 +1,7 @@
-import { FlexMessage } from '@line/bot-sdk'
+import { FlexComponent, FlexMessage } from '@line/bot-sdk'
 import { postbackData } from '~/utils/postback'
 
-export const selectGame = (docId: string, uuid: string): FlexMessage => {
+export const msgSelectGame = (docId: string, uuid: string): FlexMessage => {
   return {
     type: 'flex',
     altText: 'selectGame',
@@ -69,6 +69,74 @@ export const selectGame = (docId: string, uuid: string): FlexMessage => {
             }
           }
         ]
+      }
+    }
+  }
+}
+
+export const msgConfirmResult = (participantList: string[], scoreList: number[]): FlexMessage => {
+  const bodyContents: FlexComponent[] = []
+  for (let i = 0; i < participantList.length; i++) {
+    bodyContents.push({
+      type: 'text',
+      text: `${i + 1}位`
+    })
+    bodyContents.push({
+      type: 'text',
+      wrap: true,
+      text: `${participantList[i]}: ${scoreList[i]}点`,
+      align: 'center',
+      weight: 'bold',
+      size: 'lg'
+    })
+  }
+  bodyContents.push({
+    type: 'separator',
+    margin: 'xl'
+  })
+  bodyContents.push({
+    type: 'text',
+    text: '上記でよろしいですか？',
+    align: 'center',
+    margin: 'xl'
+  })
+
+  return {
+    type: 'flex',
+    altText: '結果の確認',
+    contents: {
+      type: 'bubble',
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: bodyContents
+      },
+      footer: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'sm',
+        contents: [
+          {
+            type: 'button',
+            action: {
+              type: 'postback',
+              label: '記録する',
+              data: 'hello',
+              displayText: '記録する'
+            }
+          },
+          {
+            type: 'button',
+            action: {
+              type: 'postback',
+              label: 'やり直す',
+              data: 'hello',
+              displayText: 'やり直す'
+            },
+            color: '#D93535'
+          }
+        ],
+        flex: 0
       }
     }
   }

@@ -4,7 +4,7 @@ import { StateRepository } from '~/Infrastructure/RepositoryImpl/Firebase/StateR
 import { getCurrentTime } from '~/utils/day'
 import { lineClient, makeReplyMessage } from '~/utils/line'
 import { errorLogger } from '~/utils/util'
-import { selectGame } from '../../notice-messages/flexMessage'
+import { msgConfirmResult, msgSelectGame } from '../../notice-messages/flexMessage'
 import { v4 as uuidv4 } from 'uuid'
 
 // *********
@@ -22,11 +22,16 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
     if (state.currentState === 0 && text === '記録開始') {
       const docId = await resultRepository.setTime(getCurrentTime())
       const uuid = uuidv4()
-      await lineClient.replyMessage(event.replyToken, selectGame(docId, uuid))
+      await lineClient.replyMessage(event.replyToken, msgSelectGame(docId, uuid))
     } else if (state.currentState === 1) {
       const doc = await resultRepository.getRecentDoc()
       if (doc.id.length === doc.people) {
-        // 確認のメッセージ
+        const participantList: string[] = []
+        doc.participantIdList.forEach(async (participantId: string) => {
+          const participant = await lineClient.getProfile(participantId)
+          participantList.push(participant.displayName)
+        })
+        await lineClient.replyMessage(event.replyToken, msgConfirmResult(participantList, doc.scoreList))
       } else {
         const participantIdList = doc.participantIdList
         const scoreList = doc.scoreList
