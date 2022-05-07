@@ -74,7 +74,12 @@ export const msgSelectGame = (docId: string, uuid: string): FlexMessage => {
   }
 }
 
-export const msgConfirmResult = (participantList: string[], scoreList: number[]): FlexMessage => {
+export const msgConfirmResult = (
+  participantList: string[],
+  scoreList: number[],
+  uuid: string,
+  docId: string
+): FlexMessage => {
   const bodyContents: FlexComponent[] = []
   for (let i = 0; i < participantList.length; i++) {
     bodyContents.push({
@@ -121,7 +126,7 @@ export const msgConfirmResult = (participantList: string[], scoreList: number[])
             action: {
               type: 'postback',
               label: '記録する',
-              data: 'hello',
+              data: postbackData('confirm', '記録する', uuid, docId),
               displayText: '記録する'
             }
           },
@@ -130,7 +135,7 @@ export const msgConfirmResult = (participantList: string[], scoreList: number[])
             action: {
               type: 'postback',
               label: 'やり直す',
-              data: 'hello',
+              data: postbackData('confirm', 'やり直す', uuid, docId),
               displayText: 'やり直す'
             },
             color: '#D93535'

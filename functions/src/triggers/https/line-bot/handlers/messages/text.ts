@@ -31,7 +31,8 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
           const participant = await lineClient.getProfile(participantId)
           participantList.push(participant.displayName)
         })
-        await lineClient.replyMessage(event.replyToken, msgConfirmResult(participantList, doc.scoreList))
+        const uuid = uuidv4()
+        await lineClient.replyMessage(event.replyToken, msgConfirmResult(participantList, doc.scoreList, uuid, doc.id))
       } else {
         const participantIdList = doc.participantIdList
         const scoreList = doc.scoreList
@@ -45,11 +46,6 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
         })
       }
     }
-
-    // state === 1
-    /*
-      n位から情報を入力
-    */
 
     await lineClient.replyMessage(event.replyToken, makeReplyMessage(text))
   } catch (err) {
