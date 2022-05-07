@@ -1,12 +1,22 @@
+import { Result } from '~/Domains/Entities/Result'
 import { ResultRepositoryInterface } from '~/Domains/Reopsitories/ResultRepository'
 import { db } from '~/utils/firebase'
 import { errorLogger } from '~/utils/util'
 
 export class ResultRepository implements ResultRepositoryInterface {
-  async getRecentDocId(): Promise<string> {
+  async getRecentDoc(): Promise<Result> {
     try {
       const res = await db.collection('result').orderBy('time', 'desc').limit(1).get()
-      return res.docs[0].id
+      const doc = res.docs[0].data()
+
+      return {
+        id: res.docs[0].id,
+        time: doc.time,
+        people: doc.people,
+        round: doc.round,
+        participantIdList: doc.participantIdList,
+        scoreList: doc.scoreList
+      }
     } catch (err) {
       errorLogger(err)
       throw new Error('getRecentDocId')
@@ -16,7 +26,7 @@ export class ResultRepository implements ResultRepositoryInterface {
   async setTime(time: string): Promise<string> {
     try {
       const doc = db.collection('result').doc()
-      await doc.set({ time })
+      await doc.set({ time, participantIdList: [], scoreList: [] })
       return doc.id
     } catch (err) {
       errorLogger(err)

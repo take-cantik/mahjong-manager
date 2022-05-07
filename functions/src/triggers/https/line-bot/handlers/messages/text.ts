@@ -23,11 +23,9 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
       const docId = await resultRepository.setTime(getCurrentTime())
       const uuid = uuidv4()
       await lineClient.replyMessage(event.replyToken, selectGame(docId, uuid))
+    } else if (state.currentState === 1) {
+      // const
     }
-    /*
-      「記録」かなんかで state === 1
-      3 or 4麻 -> 半荘 or 東風 を選択するflexMessage
-    */
 
     // state === 1
     /*
