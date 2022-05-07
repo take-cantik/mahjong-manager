@@ -24,7 +24,21 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
       const uuid = uuidv4()
       await lineClient.replyMessage(event.replyToken, selectGame(docId, uuid))
     } else if (state.currentState === 1) {
-      // const
+      const doc = await resultRepository.getRecentDoc()
+      if (doc.id.length === doc.people) {
+        // 確認のメッセージ
+      } else {
+        const participantIdList = doc.participantIdList
+        const scoreList = doc.scoreList
+        participantIdList.push(event.source.userId!)
+        scoreList.push(Number(text))
+        await resultRepository.setScore(doc.id, participantIdList, scoreList)
+        const user = await lineClient.getProfile(event.source.userId!)
+        await lineClient.replyMessage(event.replyToken, {
+          type: 'text',
+          text: `${scoreList.length + 1}位: ${user.displayName}`
+        })
+      }
     }
 
     // state === 1
