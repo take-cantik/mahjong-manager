@@ -31,4 +31,13 @@ export class UserRepository implements UserRepositoryInterface {
       throw new Error('addUser')
     }
   }
+
+  async updateRate(lineId: string, rate: number): Promise<void> {
+    try {
+      await db.collection('users').doc(lineId).update({ rate })
+    } catch (err) {
+      errorLogger(err)
+      throw new Error('updateRate')
+    }
+  }
 }
