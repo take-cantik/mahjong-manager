@@ -3,6 +3,7 @@ import { PostbackRepository } from '~/Infrastructure/RepositoryImpl/Firebase/Pos
 import { lineClient } from '~/utils/line'
 import { getPrefix, getUuid } from '~/utils/postback'
 import { errorLogger } from '~/utils/util'
+import { confirmHandler } from './confirm'
 import { gameHandler } from './game'
 
 export const postbacksHandler = async (event: PostbackEvent): Promise<void> => {
@@ -15,6 +16,8 @@ export const postbacksHandler = async (event: PostbackEvent): Promise<void> => {
       await lineClient.replyMessage(event.replyToken, { type: 'text', text: 'このメッセージは既に使用されています' })
     } else if (prefix === 'game') {
       await gameHandler(event)
+    } else if (prefix === 'confirm') {
+      await confirmHandler(event)
     }
   } catch (err) {
     errorLogger(err)
