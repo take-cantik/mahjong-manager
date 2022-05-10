@@ -5,8 +5,9 @@ import { UserRepository } from '~/Infrastructure/RepositoryImpl/Firebase/UserRep
 import { lineClient } from '~/utils/line'
 import { getData, getDocId } from '~/utils/postback'
 import { rateDiff } from '~/utils/rate'
+import { msgRateResult } from '../../notice-messages/flexMessage'
 
-interface ResultMsgElement {
+export interface RateResult {
   userName: string
   newRate: number
   rateDiff: number
@@ -32,17 +33,19 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
       everyoneRates.push(user.rate)
     })
 
-    const resultMsgList: ResultMsgElement[] = []
+    const rateResultList: RateResult[] = []
     participantList.forEach(async (participant: User, index: number) => {
       const diff = rateDiff(participant.rate, everyoneRates, result.people, index - 1, result.round)
       const newRate = participant.rate + diff
       await userRepository.updateRate(participant.lineId, newRate)
-      resultMsgList.push({
+      rateResultList.push({
         userName: participant.name,
         newRate: newRate,
         rateDiff: diff
       })
     })
+
+    await lineClient.replyMessage(event.replyToken, msgRateResult(rateResultList))
   } else if (data === 'やり直す') {
     await resultRepository.setScore(docId, [], [])
     await lineClient.replyMessage(event.replyToken, { type: 'text', text: '1位の人から順に得点を入力してください' })

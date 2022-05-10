@@ -1,5 +1,7 @@
 import { FlexComponent, FlexMessage } from '@line/bot-sdk'
 import { postbackData } from '~/utils/postback'
+import { showRate } from '~/utils/rate'
+import { RateResult } from '../handlers/postbacks/confirm'
 
 export const msgSelectGame = (docId: string, uuid: string): FlexMessage => {
   return {
@@ -142,6 +144,49 @@ export const msgConfirmResult = (
           }
         ],
         flex: 0
+      }
+    }
+  }
+}
+
+export const msgRateResult = (rateResultList: RateResult[]): FlexMessage => {
+  const bodyContents: FlexComponent[] = []
+  rateResultList.forEach((rateResult: RateResult) => {
+    bodyContents.push({
+      type: 'text',
+      text: `${rateResult.userName}`,
+      size: 'lg',
+      margin: 'xl'
+    })
+    bodyContents.push({
+      type: 'text',
+      text: showRate(rateResult.newRate, rateResult.rateDiff),
+      size: 'xl',
+      align: 'center',
+      margin: 'xl'
+    })
+  })
+
+  return {
+    type: 'flex',
+    altText: 'レート更新',
+    contents: {
+      type: 'bubble',
+      header: {
+        type: 'box',
+        layout: 'vertical',
+        contents: [
+          {
+            type: 'text',
+            text: 'レート更新'
+          }
+        ]
+      },
+      body: {
+        type: 'box',
+        layout: 'vertical',
+        contents: bodyContents,
+        paddingTop: 'none'
       }
     }
   }

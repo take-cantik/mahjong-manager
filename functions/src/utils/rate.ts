@@ -26,3 +26,8 @@ export const rateDiff = (myRate: number, everyoneRates: number[], people: 3 | 4,
   const fluctuationValue: number = (rateAverage(otherRates) - myRate) / 80
   return Math.floor(((rankValueList[rank - 1] + fluctuationValue) / 10) * round)
 }
+
+export const showRate = (newRate: number, diff: number): string => {
+  const diffStr = diff >= 0 ? `+${diff}` : `${diff}`
+  return `${newRate} (${diffStr})`
+}
