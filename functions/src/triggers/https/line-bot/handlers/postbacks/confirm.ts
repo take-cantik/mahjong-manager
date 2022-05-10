@@ -6,13 +6,7 @@ import { lineClient } from '~/utils/line'
 import { getData, getDocId } from '~/utils/postback'
 import { rateDiff } from '~/utils/rate'
 
-interface Participant {
-  user: User
-  score: number
-}
-
-// TODO: 名前用検討
-interface NewResult {
+interface ResultMsgElement {
   userName: string
   newRate: number
   rateDiff: number
@@ -29,26 +23,23 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
   if (data === '記録する') {
     const result = await resultRepository.getRecentDoc()
 
-    const participantList: Participant[] = []
-    result.participantIdList.forEach(async (participantId: string, index: number) => {
+    const participantList: User[] = []
+    const everyoneRates: number[] = []
+    result.participantIdList.forEach(async (participantId: string) => {
       const user = await userRepository.getUser(participantId)
       if (!user) throw new Error()
-      participantList.push({
-        user,
-        score: result.scoreList[index]
-      })
+      participantList.push(user)
+      everyoneRates.push(user.rate)
     })
 
-    // TODO ↑このfor消せるから下と統合
-
-    const newResult: NewResult[] = []
-    participantList.forEach(async (participant: Participant, index: number) => {
-      const otherRates = result.scoreList.splice(index, 1)
-      const diff = rateDiff(participant.score, otherRates, result.people, index - 1, result.round)
-      await userRepository.updateRate(participant.user.lineId, participant.user.rate + diff)
-      newResult.push({
-        userName: participant.user.name,
-        newRate: participant.user.rate + diff,
+    const resultMsgList: ResultMsgElement[] = []
+    participantList.forEach(async (participant: User, index: number) => {
+      const diff = rateDiff(participant.rate, everyoneRates, result.people, index - 1, result.round)
+      const newRate = participant.rate + diff
+      await userRepository.updateRate(participant.lineId, newRate)
+      resultMsgList.push({
+        userName: participant.name,
+        newRate: newRate,
         rateDiff: diff
       })
     })
