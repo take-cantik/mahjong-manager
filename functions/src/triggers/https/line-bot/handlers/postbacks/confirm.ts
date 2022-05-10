@@ -1,6 +1,7 @@
 import { PostbackEvent } from '@line/bot-sdk'
 import { User } from '~/Domains/Entities/User'
 import { ResultRepository } from '~/Infrastructure/RepositoryImpl/Firebase/ResultRepository'
+import { StateRepository } from '~/Infrastructure/RepositoryImpl/Firebase/StateRepository'
 import { UserRepository } from '~/Infrastructure/RepositoryImpl/Firebase/UserRepository'
 import { lineClient } from '~/utils/line'
 import { getData, getDocId } from '~/utils/postback'
@@ -16,6 +17,7 @@ export interface RateResult {
 export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
   const resultRepository = new ResultRepository()
   const userRepository = new UserRepository()
+  const stateRepository = new StateRepository()
 
   const data = getData(event)
   const docId = getDocId(event)
@@ -45,6 +47,7 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
       })
     })
 
+    await stateRepository.changeState({ currentState: 1 })
     await lineClient.replyMessage(event.replyToken, msgRateResult(rateResultList))
   } else if (data === 'やり直す') {
     await resultRepository.setScore(docId, [], [])

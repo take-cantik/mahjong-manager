@@ -54,4 +54,14 @@ export class ResultRepository implements ResultRepositoryInterface {
       throw new Error('setScore')
     }
   }
+
+  async deleteRecentDoc(): Promise<void> {
+    try {
+      const res = await db.collection('result').orderBy('time', 'desc').limit(1).get()
+      await db.collection('result').doc(res.docs[0].id).delete()
+    } catch (err) {
+      errorLogger(err)
+      throw new Error('getRecentDocId')
+    }
+  }
 }

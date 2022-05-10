@@ -19,10 +19,13 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
 
     const state = await stateRepository.getCurrentState()
 
-    if (state.currentState === 0 && text === '記録開始') {
+    if (state.currentState === 0 && text === '記録開始' && event.source.type === 'group') {
       const docId = await resultRepository.setTime(getCurrentTime())
       const uuid = uuidv4()
       await lineClient.replyMessage(event.replyToken, msgSelectGame(docId, uuid))
+    } else if (state.currentState === 1 && text === 'キャンセル') {
+      await resultRepository.deleteRecentDoc()
+      await lineClient.replyMessage(event.replyToken, { type: 'text', text: 'キャンセルしました' })
     } else if (state.currentState === 1) {
       const doc = await resultRepository.getRecentDoc()
       if (doc.id.length === doc.people) {
