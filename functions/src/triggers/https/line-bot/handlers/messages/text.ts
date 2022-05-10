@@ -2,7 +2,7 @@ import { MessageEvent, TextEventMessage } from '@line/bot-sdk'
 import { ResultRepository } from '~/Infrastructure/RepositoryImpl/Firebase/ResultRepository'
 import { StateRepository } from '~/Infrastructure/RepositoryImpl/Firebase/StateRepository'
 import { getCurrentTime } from '~/utils/day'
-import { lineClient, makeReplyMessage } from '~/utils/line'
+import { lineClient } from '~/utils/line'
 import { errorLogger } from '~/utils/util'
 import { msgConfirmResult, msgSelectGame } from '../../notice-messages/flexMessage'
 import { v4 as uuidv4 } from 'uuid'
@@ -42,15 +42,12 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
         participantIdList.push(event.source.userId!)
         scoreList.push(Number(text))
         await resultRepository.setScore(doc.id, participantIdList, scoreList)
-        const user = await lineClient.getProfile(event.source.userId!)
         await lineClient.replyMessage(event.replyToken, {
           type: 'text',
-          text: `${scoreList.length + 1}位: ${user.displayName}`
+          text: `${scoreList.length + 2}位の方は入力してください`
         })
       }
     }
-
-    await lineClient.replyMessage(event.replyToken, makeReplyMessage(text))
   } catch (err) {
     errorLogger(err)
     throw new Error('message text handler')
