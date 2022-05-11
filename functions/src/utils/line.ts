@@ -1,4 +1,4 @@
-import { Client, ClientConfig, Message, MiddlewareConfig } from '@line/bot-sdk'
+import { Client, ClientConfig, MiddlewareConfig } from '@line/bot-sdk'
 import { LINE_MESSAGING_CHANNEL_ACCESS_TOKEN, LINE_MESSAGING_CHANNEL_SECRET } from './secrets'
 
 export const lineMiddlewareConfig: MiddlewareConfig = {
@@ -11,10 +11,3 @@ export const lineConfig: ClientConfig = {
 }
 
 export const lineClient = new Client(lineConfig)
-
-export const makeReplyMessage = (text: string): Message => {
-  return {
-    type: 'text',
-    text: text.replace(/<br>/g, '\n')
-  }
-}
