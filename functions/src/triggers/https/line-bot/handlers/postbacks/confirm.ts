@@ -24,7 +24,7 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
   if (!docId) throw new Error()
 
   if (data === '記録する' && event.source.type === 'group') {
-    const result = await resultRepository.getRecentDoc()
+    const result = await resultRepository.getResult(docId)
 
     const everyoneRates: number[] = []
     const participantList: User[] = await Promise.all(

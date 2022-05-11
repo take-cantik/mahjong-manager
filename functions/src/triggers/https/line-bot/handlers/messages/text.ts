@@ -23,7 +23,7 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
         const uuid = uuidv4()
         await lineClient.replyMessage(event.replyToken, msgSelectGame(docId, uuid))
       } else if (state.docId && text === 'キャンセル') {
-        await resultRepository.deleteRecentDoc()
+        await resultRepository.deleteResult(state.groupId)
         await stateRepository.changeState({ groupId: event.source.groupId, docId: '' })
         await lineClient.replyMessage(event.replyToken, { type: 'text', text: 'キャンセルしました' })
       } else if (state.docId) {
@@ -34,7 +34,7 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
           return
         }
 
-        const doc = await resultRepository.getRecentDoc()
+        const doc = await resultRepository.getResult(state.docId)
         const participantIdList = doc.participantIdList
         const scoreList = doc.scoreList
 

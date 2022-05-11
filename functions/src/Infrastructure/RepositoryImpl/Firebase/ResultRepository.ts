@@ -4,13 +4,15 @@ import { db } from '~/utils/firebase'
 import { errorLogger } from '~/utils/util'
 
 export class ResultRepository implements ResultRepositoryInterface {
-  async getRecentDoc(): Promise<Result> {
+  async getResult(docId: string): Promise<Result> {
     try {
-      const res = await db.collection('result').orderBy('time', 'desc').limit(1).get()
-      const doc = res.docs[0].data()
+      const res = await db.collection('result').doc(docId).get()
+      const doc = res.data()
+
+      if (!doc) throw new Error()
 
       return {
-        id: res.docs[0].id,
+        id: res.id,
         time: doc.time,
         people: doc.people,
         round: doc.round,
@@ -19,7 +21,7 @@ export class ResultRepository implements ResultRepositoryInterface {
       }
     } catch (err) {
       errorLogger(err)
-      throw new Error('getRecentDocId')
+      throw new Error('getResult')
     }
   }
 
@@ -55,13 +57,12 @@ export class ResultRepository implements ResultRepositoryInterface {
     }
   }
 
-  async deleteRecentDoc(): Promise<void> {
+  async deleteResult(docId: string): Promise<void> {
     try {
-      const res = await db.collection('result').orderBy('time', 'desc').limit(1).get()
-      await db.collection('result').doc(res.docs[0].id).delete()
+      await db.collection('result').doc(docId).delete()
     } catch (err) {
       errorLogger(err)
-      throw new Error('getRecentDocId')
+      throw new Error('deleteResult')
     }
   }
 }
