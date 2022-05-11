@@ -18,15 +18,15 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
     if (event.source.type === 'group') {
       const state = await stateRepository.getCurrentState(event.source.groupId)
 
-      if (state.currentState === 0 && text === '記録開始') {
+      if (!state.docId && text === '記録開始') {
         const docId = await resultRepository.setTime(getCurrentTime())
         const uuid = uuidv4()
         await lineClient.replyMessage(event.replyToken, msgSelectGame(docId, uuid))
-      } else if (state.currentState === 1 && text === 'キャンセル') {
+      } else if (state.docId && text === 'キャンセル') {
         await resultRepository.deleteRecentDoc()
-        await stateRepository.changeState({ currentState: 0, groupId: event.source.groupId })
+        await stateRepository.changeState({ groupId: event.source.groupId, docId: '' })
         await lineClient.replyMessage(event.replyToken, { type: 'text', text: 'キャンセルしました' })
-      } else if (state.currentState === 1) {
+      } else if (state.docId) {
         const score = Number(text)
 
         if (isNaN(score)) {

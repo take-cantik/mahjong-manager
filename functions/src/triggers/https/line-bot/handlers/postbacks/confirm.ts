@@ -59,7 +59,7 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
       })
     )
 
-    await stateRepository.changeState({ currentState: 0, groupId: event.source.groupId })
+    await stateRepository.changeState({ groupId: event.source.groupId, docId: '' })
     await lineClient.replyMessage(event.replyToken, msgRateResult(rateResultList))
   } else if (data === 'やり直す') {
     await resultRepository.setScore(docId, [], [])

@@ -5,6 +5,6 @@ export const joinHandler = async (event: JoinEvent) => {
   const stateRepository = new StateRepository()
 
   if (event.source.type === 'group') {
-    await stateRepository.addState({ currentState: 0, groupId: event.source.groupId })
+    await stateRepository.addState({ groupId: event.source.groupId, docId: '' })
   }
 }

@@ -12,7 +12,7 @@ export class StateRepository implements StateRepositoryInterface {
 
       return {
         groupId: data.groupId,
-        currentState: data.currentState
+        docId: data.docId
       }
     } catch (err) {
       errorLogger(err)

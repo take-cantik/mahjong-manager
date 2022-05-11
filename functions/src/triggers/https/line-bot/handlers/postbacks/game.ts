@@ -18,7 +18,7 @@ export const gameHandler = async (event: PostbackEvent): Promise<void> => {
     if (!(round === 1 || round === 2)) throw new Error()
 
     await resultRepostitory.setGame(docId, people, round)
-    await stateRepository.changeState({ currentState: 1, groupId: event.source.groupId })
+    await stateRepository.changeState({ groupId: event.source.groupId, docId })
     await lineClient.replyMessage(event.replyToken, { type: 'text', text: '1位の人から順に得点を入力してください' })
   }
 }
