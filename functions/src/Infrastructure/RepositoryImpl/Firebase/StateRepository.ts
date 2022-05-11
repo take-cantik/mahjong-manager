@@ -4,14 +4,15 @@ import { db } from '~/utils/firebase'
 import { errorLogger } from '~/utils/util'
 
 export class StateRepository implements StateRepositoryInterface {
-  async getCurrentState(): Promise<State> {
+  async getCurrentState(groupId: string): Promise<State> {
     try {
-      const res = await db.collection('state').doc('bot-state').get()
-
-      if (!res.data()) throw new Error('state not found')
+      const res = await db.collection('state').doc(groupId).get()
+      const data = res.data()
+      if (!data) throw new Error('state not found')
 
       return {
-        currentState: res.data()!.currentState
+        groupId: data.groupId,
+        currentState: data.currentState
       }
     } catch (err) {
       errorLogger(err)
@@ -21,7 +22,7 @@ export class StateRepository implements StateRepositoryInterface {
 
   async addState(state: State): Promise<void> {
     try {
-      await db.collection('state').doc('bot-state').set(state)
+      await db.collection('state').doc(state.groupId).set(state)
     } catch (err) {
       errorLogger(err)
       throw new Error('getState')
@@ -30,7 +31,7 @@ export class StateRepository implements StateRepositoryInterface {
 
   async changeState(newState: State): Promise<void> {
     try {
-      await db.collection('state').doc('bot-state').update(newState)
+      await db.collection('state').doc(newState.groupId).update(newState)
     } catch (err) {
       errorLogger(err)
       throw new Error('changeState')

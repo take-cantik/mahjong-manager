@@ -23,7 +23,7 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
   const docId = getDocId(event)
   if (!docId) throw new Error()
 
-  if (data === '記録する') {
+  if (data === '記録する' && event.source.type === 'group') {
     const result = await resultRepository.getRecentDoc()
 
     const participantList: User[] = []
@@ -47,7 +47,7 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
       })
     })
 
-    await stateRepository.changeState({ currentState: 1 })
+    await stateRepository.changeState({ currentState: 0, groupId: event.source.groupId })
     await lineClient.replyMessage(event.replyToken, msgRateResult(rateResultList))
   } else if (data === 'やり直す') {
     await resultRepository.setScore(docId, [], [])

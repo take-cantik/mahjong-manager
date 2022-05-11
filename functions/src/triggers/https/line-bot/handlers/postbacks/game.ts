@@ -5,18 +5,20 @@ import { lineClient } from '~/utils/line'
 import { getData, getDocId } from '~/utils/postback'
 
 export const gameHandler = async (event: PostbackEvent): Promise<void> => {
-  const resultRepostitory = new ResultRepository()
-  const stateRepository = new StateRepository()
-  const data = getData(event).split('-')
-  const docId = getDocId(event)
+  if (event.source.type === 'group') {
+    const resultRepostitory = new ResultRepository()
+    const stateRepository = new StateRepository()
+    const data = getData(event).split('-')
+    const docId = getDocId(event)
 
-  if (!docId) throw new Error()
-  const people = Number(data[0])
-  if (!(people === 3 || people === 4)) throw new Error()
-  const round = Number(data[1])
-  if (!(round === 1 || round === 2)) throw new Error()
+    if (!docId) throw new Error()
+    const people = Number(data[0])
+    if (!(people === 3 || people === 4)) throw new Error()
+    const round = Number(data[1])
+    if (!(round === 1 || round === 2)) throw new Error()
 
-  await resultRepostitory.setGame(docId, people, round)
-  await stateRepository.changeState({ currentState: 1 })
-  await lineClient.replyMessage(event.replyToken, { type: 'text', text: '1位の人から順に得点を入力してください' })
+    await resultRepostitory.setGame(docId, people, round)
+    await stateRepository.changeState({ currentState: 1, groupId: event.source.groupId })
+    await lineClient.replyMessage(event.replyToken, { type: 'text', text: '1位の人から順に得点を入力してください' })
+  }
 }

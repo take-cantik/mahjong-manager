@@ -19,9 +19,9 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
     const resultRepository = new ResultRepository()
     const userRepository = new UserRepository()
 
-    const state = await stateRepository.getCurrentState()
-
     if (event.source.type === 'group') {
+      const state = await stateRepository.getCurrentState(event.source.groupId)
+
       if (state.currentState === 0 && text === '記録開始') {
         const docId = await resultRepository.setTime(getCurrentTime())
         const uuid = uuidv4()
