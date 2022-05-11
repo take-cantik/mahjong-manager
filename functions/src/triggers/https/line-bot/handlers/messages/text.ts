@@ -28,10 +28,17 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
         await lineClient.replyMessage(event.replyToken, msgSelectGame(docId, uuid))
       } else if (state.currentState === 1 && text === 'キャンセル') {
         await resultRepository.deleteRecentDoc()
+        await stateRepository.changeState({ currentState: 0, groupId: event.source.groupId })
         await lineClient.replyMessage(event.replyToken, { type: 'text', text: 'キャンセルしました' })
       } else if (state.currentState === 1) {
         const doc = await resultRepository.getRecentDoc()
-        if (doc.id.length === doc.people) {
+        const participantIdList = doc.participantIdList
+        const scoreList = doc.scoreList
+        participantIdList.push(event.source.userId!)
+        scoreList.push(Number(text))
+        await resultRepository.setScore(doc.id, participantIdList, scoreList)
+
+        if (participantIdList.length === doc.people) {
           const participantList: string[] = []
           doc.participantIdList.forEach(async (participantId: string) => {
             const participant = await userRepository.getUser(participantId)
@@ -39,7 +46,7 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
             if (participant) {
               participantList.push(participant.name)
             } else if (event.source.type === 'group') {
-              const user = await lineClient.getRoomMemberProfile(event.source.groupId, participantId)
+              const user = await lineClient.getGroupMemberProfile(event.source.groupId, participantId)
               await userRepository.addUser({
                 lineId: participantId,
                 name: user.displayName,
@@ -54,14 +61,9 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
             msgConfirmResult(participantList, doc.scoreList, uuid, doc.id)
           )
         } else {
-          const participantIdList = doc.participantIdList
-          const scoreList = doc.scoreList
-          participantIdList.push(event.source.userId!)
-          scoreList.push(Number(text))
-          await resultRepository.setScore(doc.id, participantIdList, scoreList)
           await lineClient.replyMessage(event.replyToken, {
             type: 'text',
-            text: `${scoreList.length + 2}位の方は入力してください`
+            text: `${scoreList.length + 1}位の方は入力してください`
           })
         }
       }

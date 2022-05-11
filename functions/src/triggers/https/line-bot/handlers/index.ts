@@ -6,6 +6,7 @@ import { followHandler } from './follow'
 import { messagesHandler } from './messages'
 import { errorLogger } from '~/utils/util'
 import { joinHandler } from './join'
+import { postbacksHandler } from './postbacks'
 
 export const handlers = async (event: WebhookEvent): Promise<void> => {
   try {
@@ -16,6 +17,8 @@ export const handlers = async (event: WebhookEvent): Promise<void> => {
         return await messagesHandler(event)
       case 'join':
         return await joinHandler(event)
+      case 'postback':
+        return await postbacksHandler(event)
       default:
     }
   } catch (err) {
