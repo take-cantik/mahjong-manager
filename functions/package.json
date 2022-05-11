@@ -4,7 +4,6 @@
   "scripts": {
     "build": "rm -rf dist && tsc",
     "dev": "yarn build && firebase emulators:start --only functions",
-    "init:state": "yarn build && node dist/Migrations/initState.js",
     "shell": "yarn build && firebase functions:shell",
     "start": "yarn shell",
     "logs": "firebase functions:log",
