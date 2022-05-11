@@ -83,20 +83,20 @@ export const msgConfirmResult = (
   docId: string
 ): FlexMessage => {
   const bodyContents: FlexComponent[] = []
-  for (let i = 0; i < participantList.length; i++) {
+  participantList.forEach((participant: string, index: number) => {
     bodyContents.push({
       type: 'text',
-      text: `${i + 1}位`
+      text: `${index + 1}位`
     })
     bodyContents.push({
       type: 'text',
       wrap: true,
-      text: `${participantList[i]}: ${scoreList[i]}点`,
+      text: `${participant}: ${scoreList[index]}点`,
       align: 'center',
       weight: 'bold',
       size: 'lg'
     })
-  }
+  })
   bodyContents.push({
     type: 'separator',
     margin: 'xl'

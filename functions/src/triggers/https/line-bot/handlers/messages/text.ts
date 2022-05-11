@@ -39,27 +39,27 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
         await resultRepository.setScore(doc.id, participantIdList, scoreList)
 
         if (participantIdList.length === doc.people) {
-          const participantList: string[] = []
-          doc.participantIdList.forEach(async (participantId: string) => {
-            const participant = await userRepository.getUser(participantId)
-
-            if (participant) {
-              participantList.push(participant.name)
-            } else if (event.source.type === 'group') {
-              const user = await lineClient.getGroupMemberProfile(event.source.groupId, participantId)
-              await userRepository.addUser({
-                lineId: participantId,
-                name: user.displayName,
-                rate: 1600
-              })
-              participantList.push(user.displayName)
-            }
-          })
-          const uuid = uuidv4()
-          await lineClient.replyMessage(
-            event.replyToken,
-            msgConfirmResult(participantList, doc.scoreList, uuid, doc.id)
+          const participantList = await Promise.all(
+            participantIdList.map(async (participantId: string) => {
+              const participant = await userRepository.getUser(participantId)
+              if (participant) {
+                return participant.name
+              } else if (event.source.type === 'group') {
+                const user = await lineClient.getGroupMemberProfile(event.source.groupId, participantId)
+                await userRepository.addUser({
+                  lineId: participantId,
+                  name: user.displayName,
+                  rate: 1600
+                })
+                return user.displayName
+              } else {
+                throw new Error()
+              }
+            })
           )
+
+          const uuid = uuidv4()
+          await lineClient.replyMessage(event.replyToken, msgConfirmResult(participantList, scoreList, uuid, doc.id))
         } else {
           await lineClient.replyMessage(event.replyToken, {
             type: 'text',
