@@ -5,6 +5,7 @@ import { msgError } from '~line/notice-messages/other'
 import { followHandler } from './follow'
 import { messagesHandler } from './messages'
 import { errorLogger } from '~/utils/util'
+import { joinHandler } from './join'
 
 export const handlers = async (event: WebhookEvent): Promise<void> => {
   try {
@@ -13,6 +14,8 @@ export const handlers = async (event: WebhookEvent): Promise<void> => {
         return await followHandler(event)
       case 'message':
         return await messagesHandler(event)
+      case 'join':
+        return await joinHandler(event)
       default:
     }
   } catch (err) {
