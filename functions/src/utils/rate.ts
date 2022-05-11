@@ -1,19 +1,10 @@
-const rateAverage = (rates: number[]) => {
+export const getAverage = (array: number[]) => {
   let sum = 0
-  rates.forEach((rate: number) => {
+  array.forEach((rate: number) => {
     sum += rate
   })
 
-  return sum / rates.length
-}
-
-export const getDefaultScore = (everyoneScores: number[], people: 3 | 4) => {
-  let sum = 0
-  everyoneScores.forEach((score: number) => {
-    sum += score
-  })
-
-  return sum / people
+  return sum / array.length
 }
 
 const getRankValue = (rank: number, people: 3 | 4): number => {
@@ -24,6 +15,14 @@ const getRankValue = (rank: number, people: 3 | 4): number => {
     const rankValueList = [15, 5, -5, -15]
     return rankValueList[rank - 1]
   }
+}
+
+const getOtherRates = (myRate: number, everyoneRates: number[], people: 3 | 4): number[] => {
+  const otherRates = everyoneRates.filter((rate) => rate !== myRate)
+  while (otherRates.length !== people - 1) {
+    otherRates.push(myRate)
+  }
+  return otherRates
 }
 
 const getRankPoint = (myScore: number, defaultScore: number, rank: number, people: 3 | 4): number => {
@@ -39,9 +38,9 @@ export const rateDiff = (
   rank: number,
   round: 1 | 2
 ) => {
-  const otherRates = everyoneRates.filter((rate) => rate !== myRate)
+  const otherRates = getOtherRates(myRate, everyoneRates, people)
   const rankPoint = getRankPoint(myScore, defaultScore, rank, people)
-  const fluctuationValue: number = (rateAverage(otherRates) - myRate) / 80
+  const fluctuationValue: number = (getAverage(otherRates) - myRate) / 80
   return Math.floor(((rankPoint + fluctuationValue) / 10) * round)
 }
 

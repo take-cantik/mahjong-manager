@@ -5,7 +5,7 @@ import { StateRepository } from '~/Infrastructure/RepositoryImpl/Firebase/StateR
 import { UserRepository } from '~/Infrastructure/RepositoryImpl/Firebase/UserRepository'
 import { lineClient } from '~/utils/line'
 import { getData, getDocId } from '~/utils/postback'
-import { getDefaultScore, rateDiff } from '~/utils/rate'
+import { getAverage, rateDiff } from '~/utils/rate'
 import { msgRateResult } from '../../notice-messages/flexMessage'
 
 export interface RateResult {
@@ -36,7 +36,7 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
       })
     )
 
-    const defaultScore = getDefaultScore(result.scoreList, result.people)
+    const defaultScore = getAverage(result.scoreList)
 
     const rateResultList: RateResult[] = await Promise.all(
       participantList.map(async (participant: User, index: number) => {
