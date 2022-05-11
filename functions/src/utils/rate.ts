@@ -7,24 +7,42 @@ const rateAverage = (rates: number[]) => {
   return sum / rates.length
 }
 
-const getRankValueList = (people: 3 | 4): number[] => {
+export const getDefaultScore = (everyoneScores: number[], people: 3 | 4) => {
+  let sum = 0
+  everyoneScores.forEach((score: number) => {
+    sum += score
+  })
+
+  return sum / people
+}
+
+const getRankValue = (rank: number, people: 3 | 4): number => {
   if (people === 3) {
-    return [50, -10, -40]
+    const rankValueList = [15, 0, -15]
+    return rankValueList[rank - 1]
   } else {
-    return [50, 10, -20, -40]
+    const rankValueList = [15, 5, -5, -15]
+    return rankValueList[rank - 1]
   }
 }
 
-const getOtherRates = (myRate: number, everyoneRates: number[]): number[] => {
-  const index = everyoneRates.indexOf(myRate)
-  return everyoneRates.splice(index, 1)
+const getRankPoint = (myScore: number, defaultScore: number, rank: number, people: 3 | 4): number => {
+  return (myScore - defaultScore) / 1000 + getRankValue(rank, people)
 }
 
-export const rateDiff = (myRate: number, everyoneRates: number[], people: 3 | 4, rank: number, round: 1 | 2) => {
-  const otherRates = getOtherRates(myRate, everyoneRates)
-  const rankValueList = getRankValueList(people)
+export const rateDiff = (
+  myRate: number,
+  everyoneRates: number[],
+  myScore: number,
+  defaultScore: number,
+  people: 3 | 4,
+  rank: number,
+  round: 1 | 2
+) => {
+  const otherRates = everyoneRates.filter((rate) => rate !== myRate)
+  const rankPoint = getRankPoint(myScore, defaultScore, rank, people)
   const fluctuationValue: number = (rateAverage(otherRates) - myRate) / 80
-  return Math.floor(((rankValueList[rank - 1] + fluctuationValue) / 10) * round)
+  return Math.floor(((rankPoint + fluctuationValue) / 10) * round)
 }
 
 export const showRate = (newRate: number, diff: number): string => {
