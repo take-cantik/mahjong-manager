@@ -1,9 +1,5 @@
-import { FlexMessage, TextMessage } from '@line/bot-sdk'
-
-export const msgOther: TextMessage = {
-  type: 'text',
-  text: 'テキスト以外のメッセージを受信しました'
-}
+import { FlexMessage } from '@line/bot-sdk'
+import { MY_LINE_LINK } from '~/utils/secrets'
 
 export const msgError: FlexMessage = {
   type: 'flex',
@@ -32,7 +28,7 @@ export const msgError: FlexMessage = {
           action: {
             type: 'uri',
             label: '報告する',
-            uri: 'https://twitter.com/hyodoblog'
+            uri: MY_LINE_LINK
           },
           style: 'primary'
         }
