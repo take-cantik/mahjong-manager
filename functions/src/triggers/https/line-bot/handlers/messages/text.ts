@@ -8,10 +8,6 @@ import { msgConfirmResult, msgSelectGame } from '../../notice-messages/flexMessa
 import { v4 as uuidv4 } from 'uuid'
 import { UserRepository } from '~/Infrastructure/RepositoryImpl/Firebase/UserRepository'
 
-// *********
-// main関数
-// *********
-
 export const messageTextHandler = async (event: MessageEvent): Promise<void> => {
   try {
     const { text } = event.message as TextEventMessage
@@ -31,9 +27,28 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
         await stateRepository.changeState({ currentState: 0, groupId: event.source.groupId })
         await lineClient.replyMessage(event.replyToken, { type: 'text', text: 'キャンセルしました' })
       } else if (state.currentState === 1) {
+        const score = Number(text)
+
+        if (isNaN(score)) {
+          await lineClient.replyMessage(event.replyToken, { type: 'text', text: '点数を入力してください' })
+          return
+        }
+
         const doc = await resultRepository.getRecentDoc()
         const participantIdList = doc.participantIdList
         const scoreList = doc.scoreList
+
+        if (participantIdList.includes(event.source.userId!)) {
+          await lineClient.replyMessage(event.replyToken, { type: 'text', text: '同じ人が入力しないでください' })
+          return
+        }
+
+        const lastScore = scoreList.slice(-1)[0]
+        if (lastScore !== undefined && lastScore < score) {
+          await lineClient.replyMessage(event.replyToken, { type: 'text', text: '有効な点数を入力してください' })
+          return
+        }
+
         participantIdList.push(event.source.userId!)
         scoreList.push(Number(text))
         await resultRepository.setScore(doc.id, participantIdList, scoreList)
