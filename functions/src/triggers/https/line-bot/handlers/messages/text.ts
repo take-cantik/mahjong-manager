@@ -23,7 +23,7 @@ export const messageTextHandler = async (event: MessageEvent): Promise<void> => 
         const uuid = uuidv4()
         await lineClient.replyMessage(event.replyToken, msgSelectGame(docId, uuid))
       } else if (state.docId && text === 'キャンセル') {
-        await resultRepository.deleteResult(state.groupId)
+        await resultRepository.deleteResult(state.docId)
         await stateRepository.changeState({ groupId: event.source.groupId, docId: '' })
         await lineClient.replyMessage(event.replyToken, { type: 'text', text: 'キャンセルしました' })
       } else if (state.docId) {
