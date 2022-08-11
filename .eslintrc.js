@@ -30,7 +30,7 @@ module.exports = {
 
     // sort
     // 'import/newline-after-import': 'error',
-    'import/no-default-export': 'error',
+    'import/no-default-export': 'off',
     'import-access/jsdoc': 'error',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
