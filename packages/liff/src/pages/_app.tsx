@@ -3,8 +3,8 @@ import '../styles/reset.css'
 
 import type { AppProps } from 'next/app'
 
-import { Authenticated } from '~/components/Authenticated'
 import { AuthProvider } from '~/contexts/AuthContext'
+import { Authenticated } from '~/hoc/Authenticated'
 import { useScrollTop } from '~/hooks/useScrollTop'
 import { DefaultLayout } from '~/layouts/Default'
 

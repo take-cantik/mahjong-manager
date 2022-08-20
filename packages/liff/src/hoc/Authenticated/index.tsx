@@ -31,6 +31,16 @@ export const Authenticated = () => {
         liff.login()
       } else {
         await liff.init({ liffId })
+
+        const accessToken = liff.getAccessToken()
+        if (!accessToken) {
+          throw new Error('Cannot get access token')
+        }
+
+        const response: Response = await fetch(`/api/verify/${accessToken}`)
+        if (response.status === 401) {
+          throw new Error('Unauthenticated')
+        }
       }
 
       const profile = await liff.getProfile()
