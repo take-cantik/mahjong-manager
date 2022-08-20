@@ -1,5 +1,5 @@
 {
-  "name": "liff-nextjs-template",
+  "name": "@mahjong-manager/liff",
   "private": true,
   "scripts": {
     "dev": "next dev",
