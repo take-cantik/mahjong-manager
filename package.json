@@ -6,6 +6,9 @@
   "scripts": {
     "i:liff": "cd packages/liff && yarn",
     "i:functions": "cd packages/functions && yarn",
-    "bootstrap": "yarn i:liff && yarn i:functions"
+    "bootstrap": "yarn i:liff && yarn i:functions",
+    "lint:liff": "cd packages/liff && yarn lint",
+    "lint:functions": "cd packages/functions && yarn lint",
+    "lint": "yarn lint:liff & yarn lint:functions"
   }
 }
