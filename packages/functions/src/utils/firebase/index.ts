@@ -1,14 +1,11 @@
-import admin from 'firebase-admin'
+import { getApps, initializeApp } from 'firebase-admin/app'
+import { getAuth } from 'firebase-admin/auth'
+import { getFirestore } from 'firebase-admin/firestore'
 import { firebaseAdminOptions } from './config'
 
-if (admin.apps.length === 0) {
-  admin.initializeApp(firebaseAdminOptions)
+if (getApps().length === 0) {
+  initializeApp(firebaseAdminOptions)
 }
 
-// Auth
-export const auth = admin.auth()
-
-// Firestore
-export const db = admin.firestore()
-
-export { admin }
+export const auth = getAuth()
+export const db = getFirestore()
