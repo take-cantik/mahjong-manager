@@ -1,7 +1,10 @@
-import admin from 'firebase-admin'
-import { FIREBASE_DATABASE_URL } from '~/utils/secrets'
+import { AppOptions, cert } from 'firebase-admin/app'
+import { FIREBASE_PROJECT_ID, GOOGLE_CLIENT_EMAIL, GOOGLE_PRIVATE_KEY } from '../secrets'
 
-export const firebaseAdminOptions: admin.AppOptions = {
-  credential: admin.credential.applicationDefault(),
-  databaseURL: FIREBASE_DATABASE_URL
+export const firebaseAdminOptions: AppOptions = {
+  credential: cert({
+    projectId: FIREBASE_PROJECT_ID,
+    clientEmail: GOOGLE_CLIENT_EMAIL,
+    privateKey: GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n')
+  })
 }
