@@ -1,6 +1,5 @@
 {
-  "name": "@benri-papillon/functions",
-  "license": "UNLICENSED",
+  "name": "@mahjong-manager/functions",
   "scripts": {
     "build": "rm -rf dist && tsc",
     "dev": "yarn build && firebase emulators:start --only functions",
