@@ -1,0 +1,11 @@
+{
+  "name": "mahjong-manager",
+  "license": "MIT",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "i:liff": "cd packages/liff && yarn",
+    "i:functions": "cd packages/functions && yarn",
+    "bootstrap": "yarn i:liff && yarn i:functions"
+  }
+}
