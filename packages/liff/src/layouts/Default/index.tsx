@@ -26,8 +26,8 @@ export const DefaultLayout: FC<LayoutProps> = ({ children }) => {
         >
           <div style={{ textAlign: 'center' }}>
             <div style={{ marginBottom: 2, color: '#ff0000' }}>ログインに失敗しました</div>
-            <a href="https://github.com/hyodoblog">
-              <div style={{ textDecoration: 'underline' }}>管理人へ</div>
+            <a href="https://twitter.com/take_cantik">
+              <div style={{ textDecoration: 'underline' }}>みきおだへ</div>
             </a>
           </div>
         </div>
