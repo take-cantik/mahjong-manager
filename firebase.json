@@ -4,7 +4,7 @@
       "yarn --cwd \"$RESOURCE_DIR\" lint",
       "yarn --cwd \"$RESOURCE_DIR\" build"
     ],
-    "source": "functions",
+    "source": "packages/functions/",
     "ignore": [
       "**/.env.*",
       "**/.prettier*",
