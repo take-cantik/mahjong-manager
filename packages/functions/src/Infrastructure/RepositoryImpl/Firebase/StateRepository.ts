@@ -31,7 +31,10 @@ export class StateRepository implements StateRepositoryInterface {
 
   async changeState(newState: State): Promise<void> {
     try {
-      await db.collection('state').doc(newState.groupId).update(newState)
+      await db
+        .collection('state')
+        .doc(newState.groupId)
+        .update({ ...newState })
     } catch (err) {
       errorLogger(err)
       throw new Error('changeState')
