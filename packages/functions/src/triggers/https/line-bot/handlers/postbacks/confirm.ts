@@ -6,7 +6,7 @@ import { UserRepository } from '~/Infrastructure/RepositoryImpl/Firebase/UserRep
 import { lineClient } from '~/utils/line'
 import { getData, getDocId } from '~/utils/postback'
 import { getAverage, rateDiff } from '~/utils/rate'
-import { msgRateResult } from '../../notice-messages/flexMessage'
+import { msgRateResult } from '../../notice-messages/select-game'
 
 export interface RateResult {
   userName: string

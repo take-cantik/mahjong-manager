@@ -8,6 +8,9 @@
     },
     {
       "path": "./packages/functions"
+    },
+    {
+      "path": "./packages/functions/src/triggers/https/line-bot"
     }
   ],
   "settings": {
