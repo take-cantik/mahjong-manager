@@ -11,6 +11,9 @@
     },
     {
       "path": "./packages/functions/src/triggers/https/line-bot"
+    },
+    {
+      "path": "./shared"
     }
   ],
   "settings": {

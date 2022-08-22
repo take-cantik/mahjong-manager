@@ -1,6 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore'
 
-import type { User } from '~/types/models'
+// import type { User } from '~/types/models'
+import type { User } from '~/shared/Domain/user'
 
 import { firestore } from '..'
 
