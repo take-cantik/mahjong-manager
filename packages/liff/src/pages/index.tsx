@@ -10,7 +10,7 @@ const HomePage: NextPage = () => {
   return (
     <DefaultLayout>
       <div style={{ marginTop: '20%' }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: 8, textAlign: 'center' }}>ようこそ、LIFFの世界へ</h1>
+        <h1 style={{ fontSize: '2rem', marginBottom: 8, textAlign: 'center' }}>麻雀レート管理アプリ</h1>
 
         <table style={{ margin: 'auto' }}>
           <tbody>
@@ -20,7 +20,11 @@ const HomePage: NextPage = () => {
             </tr>
             <tr>
               <td>userUid</td>
-              <td>：{user!.userUid}</td>
+              <td>：{user!.lineId}</td>
+            </tr>
+            <tr>
+              <td>rate</td>
+              <td>：{user!.rate}</td>
             </tr>
           </tbody>
         </table>

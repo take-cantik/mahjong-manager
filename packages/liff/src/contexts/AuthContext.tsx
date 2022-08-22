@@ -32,8 +32,9 @@ export const AuthProvider = ({ children }: Props) => {
       return
     }
     const _user: User = {
-      userUid: user.userUid,
-      name: user.name
+      lineId: user.lineId,
+      name: user.name,
+      rate: user.rate
     }
     setUserState(_user)
   }

@@ -1,4 +1,5 @@
 export interface User {
-  userUid: string
+  lineId: string
   name: string
+  rate: number
 }

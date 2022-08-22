@@ -11,11 +11,17 @@ export const Authenticated = () => {
   const { setUser: setUserContext } = useContext(AuthContext)
 
   const setUser = async (userUid: string): Promise<void> => {
-    // 今回はデモ用のテンプレートコードなので、nameに仮のdisplayNameを設定している
-    // 本来はここでuserUidをもとにDBから値を取り、setUserContextに反映させる
+    const userRepository = new UserRepository()
+    const user = await userRepository.getUser(userUid)
+
+    if (!user) {
+      throw new Error('User Not Found')
+    }
+
     setUserContext({
-      userUid,
-      name: (await liff.getProfile()).displayName
+      lineId: user.lineId,
+      name: user.name,
+      rate: user.rate
     })
   }
 
@@ -45,11 +51,9 @@ export const Authenticated = () => {
       }
 
       const profile = await liff.getProfile()
-      const userRepository = new UserRepository()
-      const user = await userRepository.getUser(profile.userId)
       setUser(profile.userId)
 
-      console.info(user)
+      console.info(profile)
     } catch (err) {
       handleError(err)
     }
