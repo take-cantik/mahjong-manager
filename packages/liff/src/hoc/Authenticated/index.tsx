@@ -3,6 +3,7 @@ import Script from 'next/script'
 import { useContext } from 'react'
 
 import { AuthContext } from '~/contexts/AuthContext'
+import { UserRepository } from '~/infra/firebase/Repositories/userRepository'
 
 const liffId = process.env.NEXT_PUBLIC_LIFF_ID!
 
@@ -44,9 +45,11 @@ export const Authenticated = () => {
       }
 
       const profile = await liff.getProfile()
+      const userRepository = new UserRepository()
+      const user = await userRepository.getUser(profile.userId)
       setUser(profile.userId)
 
-      console.info(profile)
+      console.info(user)
     } catch (err) {
       handleError(err)
     }
