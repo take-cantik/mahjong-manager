@@ -8,7 +8,7 @@ interface FirebaseConfig {
 
 const FIREBASE_CONFIG = process.env.FIREBASE_CONFIG
 const firebaseConfig = FIREBASE_CONFIG ? (JSON.parse(FIREBASE_CONFIG) as FirebaseConfig) : undefined
-export const FIREBASE_PROJECT_ID = firebaseConfig ? firebaseConfig.projectId : process.env.GOOGLE_PROJECT_ID
+export const FIREBASE_PROJECT_ID = firebaseConfig ? firebaseConfig.projectId : (process.env.GOOGLE_CLOUD_ID as string)
 export const FIREBASE_STORAGE_BUCKET = firebaseConfig ? firebaseConfig.storageBucket : ''
 
 export const GOOGLE_CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL as string
