@@ -7,7 +7,7 @@ import { errorLogger } from '~/utils/util'
 export class ResultRepository implements ResultRepositoryInterface {
   async getResult(docId: string): Promise<Result> {
     try {
-      const res = await db.collection('result').doc(docId).get()
+      const res = await db.collection('results').doc(docId).get()
       const doc = res.data()
 
       if (!doc) throw new Error()
@@ -27,7 +27,7 @@ export class ResultRepository implements ResultRepositoryInterface {
   async setTime(time: string): Promise<string> {
     try {
       const firestoreTime = firestore.Timestamp.fromDate(new Date(time))
-      const doc = db.collection('result').doc(String(firestoreTime.seconds))
+      const doc = db.collection('results').doc(String(firestoreTime.seconds))
       await doc.set({ time: firestoreTime, scoreList: [] })
       return doc.id
     } catch (err) {
@@ -38,7 +38,7 @@ export class ResultRepository implements ResultRepositoryInterface {
 
   async setGame(docId: string, people: 3 | 4, round: 1 | 2): Promise<void> {
     try {
-      await db.collection('result').doc(docId).update({ people, round })
+      await db.collection('results').doc(docId).update({ people, round })
     } catch (err) {
       errorLogger(err)
       throw new Error('setPeople')
@@ -47,7 +47,7 @@ export class ResultRepository implements ResultRepositoryInterface {
 
   async setScore(docId: string, scoreList: ScoreResult[]): Promise<void> {
     try {
-      await db.collection('result').doc(docId).update({
+      await db.collection('results').doc(docId).update({
         scoreList
       })
     } catch (err) {

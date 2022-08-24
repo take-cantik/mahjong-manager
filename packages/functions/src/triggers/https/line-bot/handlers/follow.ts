@@ -11,9 +11,29 @@ export const followHandler = async (event: FollowEvent): Promise<void> => {
   if (!userRepository.getUser(lineId)) {
     const user = await lineClient.getProfile(lineId)
     await userRepository.addUser({
-      lineId: event.source.userId!,
+      lineId: lineId,
       name: user.displayName,
-      rate: 1600
+      threeRecord: {
+        rate: 1600,
+        rankHistory: [],
+        gameCount: 0,
+        rankCount: 0,
+        firstCount: 0,
+        secoundCount: 0,
+        thirdCount: 0,
+        minusCount: 0
+      },
+      fourRecord: {
+        rate: 1600,
+        rankHistory: [],
+        gameCount: 0,
+        rankCount: 0,
+        firstCount: 0,
+        secoundCount: 0,
+        thirdCount: 0,
+        fourCount: 0,
+        minusCount: 0
+      }
     })
   }
   await lineClient.replyMessage(event.replyToken, msgFollow)
