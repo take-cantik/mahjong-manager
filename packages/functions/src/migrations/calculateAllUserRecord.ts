@@ -23,7 +23,7 @@ interface NewUser {
     gameCount: number
     rankCount: number
     firstCount: number
-    secoundCount: number
+    secondCount: number
     thirdCount: number
     minusCount: number
   }
@@ -33,9 +33,9 @@ interface NewUser {
     gameCount: number
     rankCount: number
     firstCount: number
-    secoundCount: number
+    secondCount: number
     thirdCount: number
-    fourCount: number
+    fourthCount: number
     minusCount: number
   }
 }
@@ -77,14 +77,14 @@ interface NewUser {
       let threeGameCount = 0
       let threeRankCount = 0
       let threeFirstCount = 0
-      let threeSecoundCount = 0
+      let threeSecondCount = 0
       let threeThirdCount = 0
       let threeMinusCount = 0
       const fourRankHistory: number[] = []
       let fourGameCount = 0
       let fourRankCount = 0
       let fourFirstCount = 0
-      let fourSecoundCount = 0
+      let fourSecondCount = 0
       let fourThirdCount = 0
       let fourFourthCount = 0
       let fourMinusCount = 0
@@ -99,7 +99,7 @@ interface NewUser {
               if (item.order === 1) {
                 threeFirstCount++
               } else if (item.order === 2) {
-                threeSecoundCount++
+                threeSecondCount++
               } else if (item.order === 3) {
                 threeThirdCount++
               }
@@ -113,7 +113,7 @@ interface NewUser {
               if (item.order === 1) {
                 fourFirstCount++
               } else if (item.order === 2) {
-                fourSecoundCount++
+                fourSecondCount++
               } else if (item.order === 3) {
                 fourThirdCount++
               } else if (item.order === 4) {
@@ -136,7 +136,7 @@ interface NewUser {
           gameCount: threeGameCount,
           rankCount: threeRankCount,
           firstCount: threeFirstCount,
-          secoundCount: threeSecoundCount,
+          secondCount: threeSecondCount,
           thirdCount: threeThirdCount,
           minusCount: threeMinusCount
         },
@@ -146,9 +146,9 @@ interface NewUser {
           gameCount: fourGameCount,
           rankCount: fourRankCount,
           firstCount: fourFirstCount,
-          secoundCount: fourSecoundCount,
+          secondCount: fourSecondCount,
           thirdCount: fourThirdCount,
-          fourCount: fourFourthCount,
+          fourthCount: fourFourthCount,
           minusCount: fourMinusCount
         }
       }

@@ -65,7 +65,7 @@ export const scoreRecordHandler = async (props: Props) => {
               gameCount: 0,
               rankCount: 0,
               firstCount: 0,
-              secoundCount: 0,
+              secondCount: 0,
               thirdCount: 0,
               minusCount: 0
             },
@@ -75,9 +75,9 @@ export const scoreRecordHandler = async (props: Props) => {
               gameCount: 0,
               rankCount: 0,
               firstCount: 0,
-              secoundCount: 0,
+              secondCount: 0,
               thirdCount: 0,
-              fourCount: 0,
+              fourthCount: 0,
               minusCount: 0
             }
           })

@@ -73,11 +73,11 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
         if (participant.order === 1) {
           participant.fourRecord.firstCount++
         } else if (participant.order === 2) {
-          participant.fourRecord.secoundCount++
+          participant.fourRecord.secondCount++
         } else if (participant.order === 3) {
           participant.fourRecord.thirdCount++
         } else if (participant.order === 4) {
-          participant.fourRecord.fourCount++
+          participant.fourRecord.fourthCount++
         }
         if (participant.score < 0) {
           participant.fourRecord.minusCount++
@@ -107,7 +107,7 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
         if (participant.order === 1) {
           participant.threeRecord.firstCount++
         } else if (participant.order === 2) {
-          participant.threeRecord.secoundCount++
+          participant.threeRecord.secondCount++
         } else if (participant.order === 3) {
           participant.threeRecord.thirdCount++
         }

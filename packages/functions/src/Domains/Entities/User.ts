@@ -7,7 +7,7 @@ export interface User {
     gameCount: number
     rankCount: number
     firstCount: number
-    secoundCount: number
+    secondCount: number
     thirdCount: number
     minusCount: number
   }
@@ -17,9 +17,9 @@ export interface User {
     gameCount: number
     rankCount: number
     firstCount: number
-    secoundCount: number
+    secondCount: number
     thirdCount: number
-    fourCount: number
+    fourthCount: number
     minusCount: number
   }
 }
