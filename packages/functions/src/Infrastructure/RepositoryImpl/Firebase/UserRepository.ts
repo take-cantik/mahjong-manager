@@ -7,12 +7,13 @@ export class UserRepository implements UserRepositoryInterface {
   async getUser(lineId: string): Promise<User | null> {
     try {
       const res = await db.collection('users').doc(lineId).get()
-
-      if (res.data()) {
+      const data = res.data()
+      if (data) {
         return {
-          lineId: res.data()!.lineId,
-          name: res.data()!.name,
-          rate: res.data()!.rate
+          lineId: data.lineId,
+          name: data.name,
+          threeRecord: data.threeRecord,
+          fourRecord: data.fourRecord
         }
       }
 
@@ -32,9 +33,12 @@ export class UserRepository implements UserRepositoryInterface {
     }
   }
 
-  async updateRate(lineId: string, rate: number): Promise<void> {
+  async updateRate(user: User): Promise<void> {
     try {
-      await db.collection('users').doc(lineId).update({ rate })
+      await db.collection('users').doc(user.lineId).update({
+        threeRecord: user.threeRecord,
+        fourRecord: user.fourRecord
+      })
     } catch (err) {
       errorLogger(err)
       throw new Error('updateRate')
