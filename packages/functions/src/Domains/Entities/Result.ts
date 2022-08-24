@@ -1,8 +1,12 @@
+export interface ScoreResult {
+  participantId: string
+  score: number
+  order: number
+}
+
 export interface Result {
-  id: string
-  time: string
+  time: number
   people: 3 | 4
   round: 1 | 2
-  participantIdList: string[]
-  scoreList: number[]
+  scoreList: ScoreResult[]
 }

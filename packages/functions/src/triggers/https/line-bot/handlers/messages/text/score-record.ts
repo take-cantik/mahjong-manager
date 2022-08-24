@@ -1,5 +1,6 @@
 import { MessageEvent } from '@line/bot-sdk'
 import { v4 as uuidv4 } from 'uuid'
+import { ScoreResult } from '~/Domains/Entities/Result'
 import { ResultRepository } from '~/Infrastructure/RepositoryImpl/Firebase/ResultRepository'
 import { UserRepository } from '~/Infrastructure/RepositoryImpl/Firebase/UserRepository'
 import { lineClient } from '~/utils/line'
@@ -25,35 +26,38 @@ export const scoreRecordHandler = async (props: Props) => {
     return
   }
 
-  const doc = await resultRepository.getResult(docId)
-  const participantIdList = doc.participantIdList
-  const scoreList = doc.scoreList
+  const result = await resultRepository.getResult(docId)
+  const scoreList = result.scoreList
 
-  if (participantIdList.includes(userId)) {
+  if (scoreList.findIndex((socreResult) => socreResult.participantId === userId) !== -1) {
     await lineClient.replyMessage(event.replyToken, { type: 'text', text: '同じ人が入力しないでください' })
     return
   }
 
-  const lastScore = scoreList.slice(-1)[0]
-  if (lastScore !== undefined && lastScore < score) {
-    await lineClient.replyMessage(event.replyToken, { type: 'text', text: '有効な点数を入力してください' })
-    return
-  }
+  scoreList.push({
+    participantId: userId,
+    score: Number(text),
+    order: -1
+  })
 
-  participantIdList.push(userId)
-  scoreList.push(Number(text))
-  await resultRepository.setScore(doc.id, participantIdList, scoreList)
+  if (scoreList.length === result.people) {
+    scoreList.sort((a, b) => a.score - b.score)
+    scoreList.forEach((scoreResult, index) => {
+      scoreResult.order = index + 1
+    })
 
-  if (participantIdList.length === doc.people) {
+    let totalScore = 0
+
     const participantList = await Promise.all(
-      participantIdList.map(async (participantId: string) => {
-        const participant = await userRepository.getUser(participantId)
+      scoreList.map(async (scoreResult: ScoreResult) => {
+        totalScore += scoreResult.score
+        const participant = await userRepository.getUser(scoreResult.participantId)
         if (participant) {
           return participant.name
         } else if (event.source.type === 'group') {
-          const user = await lineClient.getGroupMemberProfile(event.source.groupId, participantId)
+          const user = await lineClient.getGroupMemberProfile(event.source.groupId, scoreResult.participantId)
           await userRepository.addUser({
-            lineId: participantId,
+            lineId: scoreResult.participantId,
             name: user.displayName,
             rate: 1600
           })
@@ -64,12 +68,18 @@ export const scoreRecordHandler = async (props: Props) => {
       })
     )
 
+    await resultRepository.setScore(String(result.time), scoreList)
+
     const uuid = uuidv4()
-    await lineClient.replyMessage(event.replyToken, msgConfirmResult(participantList, scoreList, uuid, doc.id))
+    await lineClient.replyMessage(
+      event.replyToken,
+      msgConfirmResult(participantList, scoreList, totalScore, uuid, String(result.time))
+    )
   } else {
+    await resultRepository.setScore(String(result.time), scoreList)
     await lineClient.replyMessage(event.replyToken, {
       type: 'text',
-      text: `${scoreList.length + 1}位の方は入力してください`
+      text: `点数を入力してください`
     })
   }
 }

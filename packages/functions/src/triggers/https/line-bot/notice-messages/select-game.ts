@@ -1,4 +1,5 @@
 import { FlexComponent, FlexMessage } from '@line/bot-sdk'
+import { ScoreResult } from '~/Domains/Entities/Result'
 import { postbackData } from '~/utils/postback'
 import { showRate } from '~/utils/rate'
 import { RateResult } from '../handlers/postbacks/confirm'
@@ -78,24 +79,37 @@ export const msgSelectGame = (docId: string, uuid: string): FlexMessage => {
 
 export const msgConfirmResult = (
   participantList: string[],
-  scoreList: number[],
+  scoreList: ScoreResult[],
+  totalScore: number,
   uuid: string,
   docId: string
 ): FlexMessage => {
   const bodyContents: FlexComponent[] = []
-  participantList.forEach((participant: string, index: number) => {
+  scoreList.forEach((scoreResult) => {
     bodyContents.push({
       type: 'text',
-      text: `${index + 1}位`
+      text: `${scoreResult.order}位`
     })
     bodyContents.push({
       type: 'text',
       wrap: true,
-      text: `${participant}: ${scoreList[index]}点`,
+      text: `${participantList[scoreResult.order - 1]}: ${scoreResult.score}点`,
       align: 'center',
       weight: 'bold',
       size: 'lg'
     })
+  })
+  bodyContents.push({
+    type: 'text',
+    text: `合計`
+  })
+  bodyContents.push({
+    type: 'text',
+    wrap: true,
+    text: `${totalScore}点`,
+    align: 'center',
+    weight: 'bold',
+    size: 'lg'
   })
   bodyContents.push({
     type: 'separator',

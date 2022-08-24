@@ -1,4 +1,5 @@
-import { Result } from '~/Domains/Entities/Result'
+import { firestore } from 'firebase-admin'
+import { Result, ScoreResult } from '~/Domains/Entities/Result'
 import { ResultRepositoryInterface } from '~/Domains/Reopsitories/ResultRepository'
 import { db } from '~/utils/firebase'
 import { errorLogger } from '~/utils/util'
@@ -12,11 +13,9 @@ export class ResultRepository implements ResultRepositoryInterface {
       if (!doc) throw new Error()
 
       return {
-        id: res.id,
-        time: doc.time,
+        time: doc.time.seconds,
         people: doc.people,
         round: doc.round,
-        participantIdList: doc.participantIdList,
         scoreList: doc.scoreList
       }
     } catch (err) {
@@ -27,8 +26,9 @@ export class ResultRepository implements ResultRepositoryInterface {
 
   async setTime(time: string): Promise<string> {
     try {
-      const doc = db.collection('result').doc()
-      await doc.set({ time, participantIdList: [], scoreList: [] })
+      const firestoreTime = firestore.Timestamp.fromDate(new Date(time))
+      const doc = db.collection('result').doc(String(firestoreTime.seconds))
+      await doc.set({ time: firestoreTime, scoreList: [] })
       return doc.id
     } catch (err) {
       errorLogger(err)
@@ -45,10 +45,9 @@ export class ResultRepository implements ResultRepositoryInterface {
     }
   }
 
-  async setScore(docId: string, participantIdList: string[], scoreList: number[]): Promise<void> {
+  async setScore(docId: string, scoreList: ScoreResult[]): Promise<void> {
     try {
       await db.collection('result').doc(docId).update({
-        participantIdList,
         scoreList
       })
     } catch (err) {
