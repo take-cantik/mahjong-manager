@@ -1,47 +1,62 @@
-export const getAverage = (array: number[]) => {
+import {
+  FOUR_RANK_VALUE_LIST_0,
+  FOUR_RANK_VALUE_LIST_3K,
+  FOUR_RANK_VALUE_LIST_6K,
+  FOUR_RANK_VALUE_LIST_9K,
+  THREE_RANK_VALUE_LIST_0,
+  THREE_RANK_VALUE_LIST_3K,
+  THREE_RANK_VALUE_LIST_6K,
+  THREE_RANK_VALUE_LIST_9K
+} from '~/constant'
+import { Result, ScoreResult } from '~/Domains/Entities/Result'
+import { Participant } from '~/triggers/https/line-bot/handlers/postbacks/confirm'
+
+export const getAverageScore = (scoreList: ScoreResult[]) => {
   let sum = 0
-  array.forEach((rate: number) => {
-    sum += rate
+  scoreList.forEach((scoreResult) => {
+    sum += scoreResult.score
   })
 
-  return sum / array.length
+  return sum / scoreList.length
 }
 
-const getRankValue = (rank: number, people: 3 | 4): number => {
-  if (people === 3) {
-    const rankValueList = [15, 0, -15]
-    return rankValueList[rank - 1]
+const getRankValue = (participant: Participant, result: Result): number => {
+  if (result.people === 3) {
+    return participant.threeRecord.rate < 3000
+      ? THREE_RANK_VALUE_LIST_0[participant.order - 1]
+      : participant.threeRecord.rate < 6000
+      ? THREE_RANK_VALUE_LIST_3K[participant.order - 1]
+      : participant.threeRecord.rate < 9000
+      ? THREE_RANK_VALUE_LIST_6K[participant.order - 1]
+      : THREE_RANK_VALUE_LIST_9K[participant.order - 1]
   } else {
-    const rankValueList = [15, 5, -5, -15]
-    return rankValueList[rank - 1]
+    return participant.fourRecord.rate < 3000
+      ? FOUR_RANK_VALUE_LIST_0[participant.order - 1]
+      : participant.fourRecord.rate < 6000
+      ? FOUR_RANK_VALUE_LIST_3K[participant.order - 1]
+      : participant.fourRecord.rate < 9000
+      ? FOUR_RANK_VALUE_LIST_6K[participant.order - 1]
+      : FOUR_RANK_VALUE_LIST_9K[participant.order - 1]
   }
 }
 
-const getOtherRates = (myRate: number, everyoneRates: number[], people: 3 | 4): number[] => {
-  const otherRates = everyoneRates.filter((rate) => rate !== myRate)
-  while (otherRates.length !== people - 1) {
-    otherRates.push(myRate)
+const getScoreDiff = (score: number, defaultScore: number): number => {
+  return (score - defaultScore) / 400
+}
+
+const getOtherRateDiff = (totalRate: number, result: Result, participant: Participant): number => {
+  if (result.people === 4) {
+    return ((totalRate - participant.fourRecord.rate) / (result.people - 1) - participant.fourRecord.rate) / 100
+  } else {
+    return ((totalRate - participant.threeRecord.rate) / (result.people - 1) - participant.threeRecord.rate) / 100
   }
-  return otherRates
 }
 
-const getRankPoint = (myScore: number, defaultScore: number, rank: number, people: 3 | 4): number => {
-  return (myScore - defaultScore) / 1000 + getRankValue(rank, people)
-}
-
-export const rateDiff = (
-  myRate: number,
-  everyoneRates: number[],
-  myScore: number,
-  defaultScore: number,
-  people: 3 | 4,
-  rank: number,
-  round: 1 | 2
-) => {
-  const otherRates = getOtherRates(myRate, everyoneRates, people)
-  const rankPoint = getRankPoint(myScore, defaultScore, rank, people)
-  const fluctuationValue: number = (getAverage(otherRates) - myRate) / 80
-  return Math.floor(((rankPoint + fluctuationValue) / 10) * round)
+export const getRateDiff = (participant: Participant, result: Result, defaultScore: number, totalRate: number) => {
+  const rankValue = getRankValue(participant, result)
+  const scoreDiff = getScoreDiff(participant.score, defaultScore)
+  const otherRateDiff = getOtherRateDiff(totalRate, result, participant)
+  return rankValue + otherRateDiff < 0 && participant.order < 3 ? scoreDiff : rankValue + scoreDiff + otherRateDiff
 }
 
 export const showRate = (newRate: number, diff: number): string => {

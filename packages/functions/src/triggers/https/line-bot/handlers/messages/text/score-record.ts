@@ -59,7 +59,27 @@ export const scoreRecordHandler = async (props: Props) => {
           await userRepository.addUser({
             lineId: scoreResult.participantId,
             name: user.displayName,
-            rate: 1600
+            threeRecord: {
+              rate: 1600,
+              rankHistory: [],
+              gameCount: 0,
+              rankCount: 0,
+              firstCount: 0,
+              secoundCount: 0,
+              thirdCount: 0,
+              minusCount: 0
+            },
+            fourRecord: {
+              rate: 1600,
+              rankHistory: [],
+              gameCount: 0,
+              rankCount: 0,
+              firstCount: 0,
+              secoundCount: 0,
+              thirdCount: 0,
+              fourCount: 0,
+              minusCount: 0
+            }
           })
           return user.displayName
         } else {
