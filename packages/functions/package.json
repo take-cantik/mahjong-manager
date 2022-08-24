@@ -10,7 +10,8 @@
     "prettier": "prettier --write .",
     "lint": "yarn eslint && yarn prettier",
     "change:resultConstruct": "yarn build && node dist/migrations/changeResultConstruct.js",
-    "calculate:AllUserRecord": "yarn build && node dist/migrations/calculateAllUserRecord.js"
+    "calculate:AllUserRecord": "yarn build && node dist/migrations/calculateAllUserRecord.js",
+    "calculate:AllUserRate": "yarn build && node dist/migrations/calculateAllUserRate.js"
   },
   "engines": {
     "node": "16"
