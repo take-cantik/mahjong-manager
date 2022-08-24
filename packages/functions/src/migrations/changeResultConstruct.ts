@@ -13,7 +13,8 @@ import { firestore } from 'firebase-admin'
       for (let i = 0; i < length; i++) {
         const object = {
           score: docScoreList[i],
-          participantId: docPList[i]
+          participantId: docPList[i],
+          order: i + 1
         }
         scoreList.push(object)
       }
