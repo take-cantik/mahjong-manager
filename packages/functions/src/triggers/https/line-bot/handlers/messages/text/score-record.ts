@@ -2,6 +2,7 @@ import { MessageEvent } from '@line/bot-sdk'
 import { v4 as uuidv4 } from 'uuid'
 import { ScoreResult } from '~/Domains/Entities/Result'
 import { ResultRepository } from '~/Infrastructure/RepositoryImpl/Firebase/ResultRepository'
+import { StateRepository } from '~/Infrastructure/RepositoryImpl/Firebase/StateRepository'
 import { UserRepository } from '~/Infrastructure/RepositoryImpl/Firebase/UserRepository'
 import { lineClient } from '~/utils/line'
 import { msgConfirmResult } from '~line/notice-messages/select-game'
@@ -18,6 +19,7 @@ export const scoreRecordHandler = async (props: Props) => {
 
   const resultRepository = new ResultRepository()
   const userRepository = new UserRepository()
+  const stateRepository = new StateRepository()
 
   const score = Number(text)
 
@@ -89,6 +91,8 @@ export const scoreRecordHandler = async (props: Props) => {
     )
 
     await resultRepository.setScore(String(result.time), scoreList)
+    if (event.source.type !== 'group') throw new Error()
+    await stateRepository.changeState({ groupId: event.source.groupId, docId: '' })
 
     const uuid = uuidv4()
     const defaultScore = totalScore / participantList.length
