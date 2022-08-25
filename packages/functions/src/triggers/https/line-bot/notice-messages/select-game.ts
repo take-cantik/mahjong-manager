@@ -80,7 +80,7 @@ export const msgSelectGame = (docId: string, uuid: string): FlexMessage => {
 export const msgConfirmResult = (
   participantList: string[],
   scoreList: ScoreResult[],
-  totalScore: number,
+  defaultScore: number,
   uuid: string,
   docId: string
 ): FlexMessage => {
@@ -101,12 +101,12 @@ export const msgConfirmResult = (
   })
   bodyContents.push({
     type: 'text',
-    text: `合計`
+    text: '初期点'
   })
   bodyContents.push({
     type: 'text',
     wrap: true,
-    text: `${totalScore}点`,
+    text: `${defaultScore}点`,
     align: 'center',
     weight: 'bold',
     size: 'lg'

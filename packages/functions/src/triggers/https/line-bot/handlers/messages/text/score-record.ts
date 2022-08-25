@@ -91,9 +91,10 @@ export const scoreRecordHandler = async (props: Props) => {
     await resultRepository.setScore(String(result.time), scoreList)
 
     const uuid = uuidv4()
+    const defaultScore = totalScore / participantList.length
     await lineClient.replyMessage(
       event.replyToken,
-      msgConfirmResult(participantList, scoreList, totalScore, uuid, String(result.time))
+      msgConfirmResult(participantList, scoreList, defaultScore, uuid, String(result.time))
     )
   } else {
     await resultRepository.setScore(String(result.time), scoreList)
