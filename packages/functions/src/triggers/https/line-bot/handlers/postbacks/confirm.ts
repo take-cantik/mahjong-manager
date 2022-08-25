@@ -62,6 +62,15 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
       // 四麻の計算
       participantList.forEach(async (participant) => {
         const rateDiff = getRateDiff(participant, result, defaultScore, totalRate.four)
+        if (isNaN(rateDiff)) {
+          await resultRepository.setScore(docId, [])
+          await lineClient.replyMessage(event.replyToken, {
+            type: 'text',
+            text: '計算でエラーが発生しました。もう一度得点を入力してください'
+          })
+          return
+        }
+
         participant.fourRecord.rate += rateDiff
         participant.fourRecord.gameCount++
         participant.fourRecord.rankCount += participant.order
@@ -96,6 +105,15 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
     } else {
       participantList.forEach(async (participant) => {
         const rateDiff = getRateDiff(participant, result, defaultScore, totalRate.three)
+        if (isNaN(rateDiff)) {
+          await resultRepository.setScore(docId, [])
+          await lineClient.replyMessage(event.replyToken, {
+            type: 'text',
+            text: '計算でエラーが発生しました。もう一度得点を入力してください'
+          })
+          return
+        }
+
         participant.threeRecord.rate += rateDiff
         participant.threeRecord.gameCount++
         participant.threeRecord.rankCount += participant.order
