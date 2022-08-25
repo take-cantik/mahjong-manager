@@ -14,7 +14,12 @@ export const postbacksHandler = async (event: PostbackEvent): Promise<void> => {
 
     if (await postbackRepository.existPostback(uuid)) {
       await lineClient.replyMessage(event.replyToken, { type: 'text', text: 'このメッセージは既に使用されています' })
-    } else if (prefix === 'game') {
+      return
+    } else {
+      await postbackRepository.addPostback(uuid, event.source.userId!)
+    }
+
+    if (prefix === 'game') {
       await gameHandler(event)
     } else if (prefix === 'confirm') {
       await confirmHandler(event)
