@@ -22,7 +22,7 @@ export const scoreRecordHandler = async (props: Props) => {
   const score = Number(text)
 
   if (isNaN(score)) {
-    await lineClient.replyMessage(event.replyToken, { type: 'text', text: '点数を入力してください' })
+    await lineClient.replyMessage(event.replyToken, { type: 'text', text: '数字を入力してください' })
     return
   }
 
@@ -41,7 +41,7 @@ export const scoreRecordHandler = async (props: Props) => {
   })
 
   if (scoreList.length === result.people) {
-    scoreList.sort((a, b) => a.score - b.score)
+    scoreList.sort((a, b) => b.score - a.score)
     scoreList.forEach((scoreResult, index) => {
       scoreResult.order = index + 1
     })
@@ -99,7 +99,7 @@ export const scoreRecordHandler = async (props: Props) => {
     await resultRepository.setScore(String(result.time), scoreList)
     await lineClient.replyMessage(event.replyToken, {
       type: 'text',
-      text: `点数を入力してください`
+      text: `${scoreList.length}人目の得点を確認しました`
     })
   }
 }

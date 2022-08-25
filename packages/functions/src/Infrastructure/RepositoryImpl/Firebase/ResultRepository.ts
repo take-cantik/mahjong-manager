@@ -58,7 +58,7 @@ export class ResultRepository implements ResultRepositoryInterface {
 
   async deleteResult(docId: string): Promise<void> {
     try {
-      await db.collection('result').doc(docId).delete()
+      await db.collection('results').doc(docId).delete()
     } catch (err) {
       errorLogger(err)
       throw new Error('deleteResult')

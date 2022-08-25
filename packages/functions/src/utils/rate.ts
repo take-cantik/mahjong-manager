@@ -56,7 +56,9 @@ export const getRateDiff = (participant: Participant, result: Result, defaultSco
   const rankValue = getRankValue(participant, result)
   const scoreDiff = getScoreDiff(participant.score, defaultScore)
   const otherRateDiff = getOtherRateDiff(totalRate, result, participant)
-  return rankValue + otherRateDiff < 0 && participant.order < 3 ? scoreDiff : rankValue + scoreDiff + otherRateDiff
+  return Math.floor(
+    rankValue + otherRateDiff < 0 && participant.order < 3 ? scoreDiff : rankValue + scoreDiff + otherRateDiff
+  )
 }
 
 export const showRate = (newRate: number, diff: number): string => {
