@@ -1,14 +1,28 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-}
+:root {
+  --green: #52b14d;
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  --black: #212121;
+  --black-lighten-1: #757575;
+  --black-lighten-2: #bdbdbd;
+  --black-lighten-3: #e0e0e0;
+  --black-lighten-4: #efefef;
+  --black-lighten-5: #fbfbfb;
+  --black-lighten-6: #f4f4f4;
 
-* {
-  box-sizing: border-box;
+  --white: #ffffff;
+
+  color: var(--black);
+
+  --montserrat: "Montserrat";
+  --noto-sans-jp: "Noto Sans JP";
+  --noto-serif-jp: "Noto Serif JP";
+
+  font-family: var(--noto-sans-jp), sans-serif;
+
+  font-size: 10px;
+  font-weight: 500;
+
+  --z-index--high: 100;
+  --z-index--medium: 10;
+  --z-index--low: 5;
 }
