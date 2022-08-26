@@ -1,7 +1,7 @@
 import '../alias'
 import { db } from '~/utils/firebase'
 
-interface NewUser {
+interface User {
   lineId: string
   name: string
   threeRecord: {
@@ -45,20 +45,19 @@ interface Participant {
 
 ;(async () => {
   try {
-    const usersSnapshot = await db.collection('newUser').get()
-    const users: NewUser[] = []
+    const usersSnapshot = await db.collection('users').get()
+    const users: User[] = []
     usersSnapshot.forEach((doc) => {
       const data = doc.data()
       if (data.lineId == '123456789') {
         return
       }
-      const user: NewUser = {
+      const user: User = {
         lineId: data.lineId,
         name: data.name,
         threeRecord: data.threeRecord,
         fourRecord: data.fourRecord
       }
-      console.info(user)
       user.fourRecord.rate = 1600
       user.threeRecord.rate = 1600
       users.push(user)
@@ -209,7 +208,7 @@ interface Participant {
     })
 
     users.forEach((user) => {
-      db.collection('newUser').doc(user.lineId).update(user)
+      db.collection('users').doc(user.lineId).update(user)
     })
   } catch (err) {
     console.error(err)

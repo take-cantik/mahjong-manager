@@ -8,15 +8,12 @@ interface Result {
   time: number
 }
 
-interface User {
+interface LineUser {
   lineId: string
   name: string
-  rate: number
 }
 
-interface NewUser {
-  lineId: string
-  name: string
+interface User extends LineUser {
   threeRecord: {
     rate: number
     rankHistory: number[]
@@ -54,10 +51,8 @@ interface NewUser {
       })
     })
 
-    console.info(results)
-
     const usersSnapshot = await db.collection('users').get()
-    const users: User[] = []
+    const users: LineUser[] = []
     usersSnapshot.forEach((doc) => {
       const data = doc.data()
       if (data.lineId == '123456789') {
@@ -65,12 +60,11 @@ interface NewUser {
       }
       users.push({
         lineId: data.lineId,
-        name: data.name,
-        rate: data.rate
+        name: data.name
       })
     })
 
-    const newUsers: NewUser[] = []
+    const newUsers: User[] = []
 
     users.forEach((user) => {
       const threeRankHistory: number[] = []
@@ -127,7 +121,7 @@ interface NewUser {
         })
       })
 
-      const newUser: NewUser = {
+      const newUser: User = {
         lineId: user.lineId,
         name: user.name,
         threeRecord: {
@@ -154,10 +148,8 @@ interface NewUser {
       }
 
       newUsers.push(newUser)
-      db.collection('newUser').doc(newUser.lineId).set(newUser)
+      db.collection('users').doc(newUser.lineId).set(newUser)
     })
-
-    console.info(newUsers)
   } catch (err) {
     console.error(err)
   }
