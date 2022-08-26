@@ -142,10 +142,10 @@ interface Participant {
         })
       } else {
         // 三麻の計算
-        const rankValueList0 = [100, 40, 0]
-        const rankValueList3000 = [50, 10, -20]
-        const rankValueList6000 = [30, 0, -30]
-        const rankValueList9000 = [20, 0, -50]
+        const rankValueList0 = [200, 80, 20]
+        const rankValueList3000 = [80, 10, -20]
+        const rankValueList6000 = [50, 5, -50]
+        const rankValueList9000 = [20, 0, -100]
         let defaultScore = 0
         let threeRateTotal = 0
 
