@@ -15,7 +15,8 @@ export class UserRepository {
     return {
       lineId: response.data().lineId,
       name: response.data().name,
-      rate: response.data().rate
+      threeRecord: response.data().threeRecord,
+      fourRecord: response.data().fourRecord
     }
   }
 }

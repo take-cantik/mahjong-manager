@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { createContext, useState } from 'react'
 
-import type { User } from '~/types/models'
+import type { User } from '~/shared/Domain/user'
 
 class AuthContextProps {
   isLogIn = false
@@ -34,7 +34,8 @@ export const AuthProvider = ({ children }: Props) => {
     const _user: User = {
       lineId: user.lineId,
       name: user.name,
-      rate: user.rate
+      threeRecord: user.threeRecord,
+      fourRecord: user.fourRecord
     }
     setUserState(_user)
   }

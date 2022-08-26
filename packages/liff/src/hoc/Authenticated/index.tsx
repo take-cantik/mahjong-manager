@@ -21,7 +21,8 @@ export const Authenticated = () => {
     setUserContext({
       lineId: user.lineId,
       name: user.name,
-      rate: user.rate
+      threeRecord: user.threeRecord,
+      fourRecord: user.fourRecord
     })
   }
 
