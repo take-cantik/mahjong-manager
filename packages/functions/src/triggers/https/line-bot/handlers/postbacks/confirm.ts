@@ -41,9 +41,9 @@ export const confirmHandler = async (event: PostbackEvent): Promise<void> => {
         const user = await userRepository.getUser(scoreResult.participantId)
         if (!user) throw new Error()
         if (result.people === 4) {
-          totalRate.four++
+          totalRate.four += user.fourRecord.rate
         } else {
-          totalRate.three++
+          totalRate.three += user.threeRecord.rate
         }
         return {
           lineId: user.lineId,

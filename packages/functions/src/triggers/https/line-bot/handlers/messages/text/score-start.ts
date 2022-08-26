@@ -17,7 +17,7 @@ export const scoreStartHandler = async (props: Props) => {
     const resultRepository = new ResultRepository()
     const stateRepository = new StateRepository()
     const currentState = await stateRepository.getCurrentState(event.source.groupId)
-    if (currentState) {
+    if (currentState.docId) {
       await resultRepository.deleteResult(currentState.docId)
     }
     const docId = await resultRepository.setTime(getCurrentTime())
