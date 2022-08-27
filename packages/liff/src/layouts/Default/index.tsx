@@ -1,3 +1,4 @@
+import { css } from '@emotion/react'
 import type { FC } from 'react'
 import { useContext } from 'react'
 
@@ -5,6 +6,13 @@ import { Loader } from '~/components/shared/Loader'
 import { AuthContext } from '~/contexts/AuthContext'
 
 import type { LayoutProps } from '../types'
+
+const main = css`
+  margin: 'auto';
+  max-width: '600';
+  height: '100vh';
+  min-height: '100vh';
+`
 
 export const DefaultLayout: FC<LayoutProps> = ({ children }) => {
   const { isError, isLogIn } = useContext(AuthContext)
@@ -35,9 +43,5 @@ export const DefaultLayout: FC<LayoutProps> = ({ children }) => {
     )
   }
 
-  return (
-    <div style={{ margin: 'auto', maxWidth: '600', height: '100vh', minHeight: '100vh', paddingBottom: 2 }}>
-      {isLogIn ? children : <Loader />}
-    </div>
-  )
+  return <main css={main}>{isLogIn ? children : <Loader />}</main>
 }

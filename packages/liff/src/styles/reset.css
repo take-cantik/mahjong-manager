@@ -4,6 +4,14 @@ html {
   word-break: normal;
   -moz-tab-size: 4;
   tab-size: 4;
+
+  -ms-overflow-style: none; /* IE, Edge 対応 */
+  scrollbar-width: none; /* Firefox 対応 */
+}
+
+::-webkit-scrollbar {
+  /* Chrome, Safari 対応 */
+  display: none;
 }
 
 *,
@@ -60,6 +68,8 @@ abbr[title] {
 
 a {
   background-color: transparent; /* Remove the gray background on active links in IE 10 */
+  text-decoration: none; /* Remove the under bar */
+  color: "#212121"; /* Add initial font color settings */
 }
 
 a:active,
@@ -103,6 +113,10 @@ sup {
 table {
   border-color: inherit; /* Correct border color in all Chrome, Edge, and Safari. */
   text-indent: 0; /* Remove text indentation in Chrome, Edge, and Safari */
+}
+
+ul {
+  list-style: none; /* Remove all style properties in the list */
 }
 
 /* # =================================================================
@@ -269,10 +283,4 @@ progress {
 /* Specify the unstyled cursor of disabled, not-editable, or otherwise inoperable elements */
 [aria-disabled="true"] {
   cursor: default;
-}
-
-.markdown-body .highlight pre,
-.markdown-body pre {
-  padding: 0 !important;
-  background: initial !important;
 }

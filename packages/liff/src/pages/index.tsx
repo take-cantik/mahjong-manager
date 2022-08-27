@@ -1,14 +1,15 @@
 import type { NextPage } from 'next'
 import { useContext } from 'react'
 
+import { Header } from '~/components/shared/Header'
 import { AuthContext } from '~/contexts/AuthContext'
-import { DefaultLayout } from '~/layouts/Default'
 
 const HomePage: NextPage = () => {
   const { user } = useContext(AuthContext)
 
   return (
-    <DefaultLayout>
+    <>
+      <Header />
       <div style={{ marginTop: '20%' }}>
         <h1 style={{ fontSize: '2rem', marginBottom: 8, textAlign: 'center' }}>麻雀レート管理アプリ</h1>
 
@@ -23,7 +24,7 @@ const HomePage: NextPage = () => {
           <p>：{user!.fourRecord.rate}</p>
         </div>
       </div>
-    </DefaultLayout>
+    </>
   )
 }
 

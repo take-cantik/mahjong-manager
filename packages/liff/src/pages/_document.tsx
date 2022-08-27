@@ -6,8 +6,8 @@ const MyDocument = () => {
       <Head>
         <meta name="application-name" content="LiFF + Nextjs + MUI テンプレート" />
         <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&family=BIZ+UDPGothic:wght@400;500;700&display=swap"
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;800&display=swap"
         />
       </Head>
       <body>
