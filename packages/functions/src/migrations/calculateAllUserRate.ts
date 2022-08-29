@@ -207,8 +207,13 @@ interface Participant {
       }
     })
 
-    users.forEach((user) => {
-      db.collection('users').doc(user.lineId).update(user)
+    users.forEach((user: User) => {
+      db.collection('users').doc(user.lineId).update({
+        lineId: user.lineId,
+        name: user.name,
+        threeRecord: user.threeRecord,
+        fourRecord: user.fourRecord
+      })
     })
   } catch (err) {
     console.error(err)
