@@ -7,7 +7,7 @@ export interface GameState {
 export const gameState = atom<GameState>({
   key: 'gameState',
   default: {
-    people: 3
+    people: 4
   },
   dangerouslyAllowMutability: true
 })
