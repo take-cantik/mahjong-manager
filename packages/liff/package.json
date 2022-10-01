@@ -14,10 +14,12 @@
     "@emotion/utils": "^1.2.0",
     "@line/liff": "^2.21.0",
     "@line/liff-mock": "^1.0.2",
+    "apexcharts": "^3.35.5",
     "axios": "^0.27.2",
     "firebase": "^9.9.3",
     "next": "12.2.5",
     "react": "18.2.0",
+    "react-apexcharts": "^1.4.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {

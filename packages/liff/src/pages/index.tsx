@@ -6,6 +6,7 @@ import { Header } from '~/components/shared/Header'
 import type { InformationProps } from '~/components/shared/Information'
 import { Profile } from '~/components/shared/Profile'
 import { ResultDetail } from '~/components/shared/ResultDetail'
+import { ResultTransition } from '~/components/shared/ResultTransition'
 import { AuthContext } from '~/contexts/AuthContext'
 import { colors } from '~/styles/themes'
 
@@ -53,6 +54,7 @@ const HomePage: NextPage = () => {
       <Header />
       <main css={main}>
         <Profile name={user!.name} rate={user!.threeRecord.rate} />
+        <ResultTransition rankList={[1, 2, 1, 3, 3, 2, 4, 2]} />
         <ResultDetail recordList={testData} />
       </main>
     </>
