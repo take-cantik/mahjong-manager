@@ -12,9 +12,9 @@ export const ResultDetail = ({ recordList }: ResultDetailProps): JSX.Element => 
     <section>
       <h2>対戦詳細</h2>
       <div>
-        {recordList.map((record) => {
-          return <Information key={record.key} value={record.value} />
-        })}
+        {recordList.map((record) => (
+          <Information label={record.label} content={record.content} key={record.label} />
+        ))}
       </div>
     </section>
   )

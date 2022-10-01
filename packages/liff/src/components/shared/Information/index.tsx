@@ -1,13 +1,15 @@
+import * as styles from './styles'
+
 export interface InformationProps {
-  key: string
-  value: string
+  label: string
+  content: string
 }
 
-export const Information = ({ key, value }: InformationProps): JSX.Element => {
+export const Information = ({ content, label }: InformationProps): JSX.Element => {
   return (
-    <div>
-      <p>{key}</p>
-      <p>{value}</p>
+    <div css={styles.common}>
+      <p css={styles.label}>{label}</p>
+      <p css={styles.content}>{content}</p>
     </div>
   )
 }
