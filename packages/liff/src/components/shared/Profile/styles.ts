@@ -4,6 +4,7 @@ import { fonts } from '~/styles/themes/fonts'
 
 export const common = css`
   width: 100%;
+  padding-bottom: 50px;
 `
 
 export const name = css`

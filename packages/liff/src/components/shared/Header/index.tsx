@@ -15,6 +15,9 @@ const header = css`
   padding: 0 16px;
   background: ${colors.green};
   color: ${colors.white};
+`
+
+const title = css`
   font-size: 2rem;
   font-weight: bold;
 `
@@ -22,7 +25,7 @@ const header = css`
 export const Header = ({ forwardRef, ...props }: HeaderProps): JSX.Element => {
   return (
     <header css={header} ref={forwardRef} {...props}>
-      <h2>じゃんま!</h2>
+      <h2 css={title}>じゃんま!</h2>
     </header>
   )
 }
