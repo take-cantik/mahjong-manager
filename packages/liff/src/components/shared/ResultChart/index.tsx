@@ -40,6 +40,8 @@ export const ResultChart = ({ rankList }: ResultChartProps): JSX.Element => {
     yaxis: {
       reversed: true,
       labels: {
+        offsetX: -16,
+        offsetY: 2,
         style: {
           colors: colors.black.primary,
           fontSize: '14px',

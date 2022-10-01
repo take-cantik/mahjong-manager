@@ -8,4 +8,5 @@ export const common = css`
 export const title = css`
   font-size: 2rem;
   font-weight: bold;
+  padding-bottom: 20px;
 `
