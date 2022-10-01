@@ -1,11 +1,11 @@
-import type { ApexOptions } from 'apexcharts'
 import dynamic from 'next/dynamic'
 import type { ComponentPropsWithRef } from 'react'
+import { useRecoilValue } from 'recoil'
 
-import { colors } from '~/styles/themes'
-import { fonts } from '~/styles/themes/fonts'
+import { gameState } from '~/state/game'
 
 import * as styles from './styles'
+import { createOptions } from './util'
 
 interface ResultChartProps extends ComponentPropsWithRef<'div'> {
   rankList: number[]
@@ -14,45 +14,9 @@ interface ResultChartProps extends ComponentPropsWithRef<'div'> {
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 export const ResultChart = ({ rankList }: ResultChartProps): JSX.Element => {
-  const options: ApexOptions = {
-    chart: {
-      type: 'line',
-      toolbar: {
-        show: false
-      },
-      animations: {
-        enabled: false
-      }
-    },
-    markers: {
-      size: 4,
-      colors: colors.green,
-      strokeWidth: 0
-    },
-    stroke: {
-      width: 2
-    },
-    xaxis: {
-      labels: {
-        show: false
-      }
-    },
-    yaxis: {
-      reversed: true,
-      labels: {
-        offsetX: -16,
-        offsetY: 2,
-        style: {
-          colors: colors.black.primary,
-          fontSize: '14px',
-          fontWeight: 500,
-          fontFamily: fonts.noto_sans_jp
-        },
-        formatter: (val) => `${val}位`
-      }
-    },
-    colors: [colors.green]
-  }
+  const game = useRecoilValue(gameState)
+
+  const options = createOptions(game.people)
 
   const series: ApexAxisChartSeries | ApexNonAxisChartSeries = [
     {
