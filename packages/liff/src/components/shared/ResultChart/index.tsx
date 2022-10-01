@@ -1,3 +1,4 @@
+import { css } from '@emotion/react'
 import dynamic from 'next/dynamic'
 import type { ComponentPropsWithRef } from 'react'
 import { useRecoilValue } from 'recoil'
@@ -25,8 +26,13 @@ export const ResultChart = ({ rankList }: ResultChartProps): JSX.Element => {
     }
   ]
 
+  const wrapper = css`
+    ${styles.common};
+    ${game.people === 4 ? styles.four : styles.three};
+  `
+
   return (
-    <div css={styles.common}>
+    <div css={wrapper}>
       <Chart options={options} series={series} height="100%" />
     </div>
   )
