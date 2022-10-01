@@ -7,11 +7,13 @@ import type { InformationProps } from '~/components/shared/Information'
 import { Profile } from '~/components/shared/Profile'
 import { ResultDetail } from '~/components/shared/ResultDetail'
 import { ResultTransition } from '~/components/shared/ResultTransition'
+import { TabMenu } from '~/components/shared/TabMenu'
 import { AuthContext } from '~/contexts/AuthContext'
 import { colors } from '~/styles/themes'
 
 const main = css`
   width: 100%;
+  height: 100vh;
   padding: 40px 16px;
   background: ${colors.black.lighten[5]};
 `
@@ -57,6 +59,7 @@ const HomePage: NextPage = () => {
         <ResultTransition rankList={[1, 2, 1, 3, 3, 2, 4, 2]} />
         <ResultDetail recordList={testData} />
       </main>
+      <TabMenu />
     </>
   )
 }
