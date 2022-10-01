@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import '../styles/reset.css'
 
 import type { AppProps } from 'next/app'
+import { RecoilRoot } from 'recoil'
 
 import { AuthProvider } from '~/contexts/AuthContext'
 import { Authenticated } from '~/hoc/Authenticated'
@@ -15,9 +16,11 @@ export default function MyApp({ Component, pageProps, router }: AppProps): JSX.E
     <AuthProvider>
       <Authenticated />
 
-      <DefaultLayout>
-        <Component {...pageProps} key={router.asPath} />
-      </DefaultLayout>
+      <RecoilRoot>
+        <DefaultLayout>
+          <Component {...pageProps} key={router.asPath} />
+        </DefaultLayout>
+      </RecoilRoot>
     </AuthProvider>
   )
 }

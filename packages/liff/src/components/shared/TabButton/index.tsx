@@ -9,10 +9,14 @@ interface TabButtonProps extends ComponentPropsWithRef<'button'> {
   active: boolean
 }
 
-export const TabButton = ({ active, children }: TabButtonProps): JSX.Element => {
+export const TabButton = ({ active, children, ...props }: TabButtonProps): JSX.Element => {
   const button = css`
     ${styles.common};
     background: ${active ? colors.green : colors.black.lighten[2]};
   `
-  return <button css={button}>{children}</button>
+  return (
+    <button css={button} {...props}>
+      {children}
+    </button>
+  )
 }
