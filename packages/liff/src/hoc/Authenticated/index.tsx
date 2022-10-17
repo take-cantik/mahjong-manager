@@ -13,14 +13,9 @@ export const Authenticated = () => {
   const { setUser: setUserContext } = useContext(AuthContext)
 
   const login = async (): Promise<void> => {
-    console.info('4')
     const idToken = liff.getIDToken()!
-    console.info('5', idToken)
     const [lineChannelId, _] = NEXT_PUBLIC_LIFF_ID.split('-')
-    console.info('6', lineChannelId)
     const profile = await liff.getProfile()
-
-    console.info('4', profile)
 
     const verify = httpsCallable(functions, 'auth')
     const response: any = await verify({
@@ -28,8 +23,6 @@ export const Authenticated = () => {
       lineChannelId,
       uid: profile.userId
     })
-
-    console.info('5', response)
 
     const token = response.data.token
 
@@ -59,17 +52,13 @@ export const Authenticated = () => {
 
   const liffInit = async () => {
     try {
-      console.info('1', NEXT_PUBLIC_LIFF_ID)
       if (process.env.NODE_ENV === 'development') {
         liff.use(new LiffMockPlugin())
         await liff.init({ liffId: NEXT_PUBLIC_LIFF_ID, mock: true })
         liff.login()
       } else {
-        console.info('2', NEXT_PUBLIC_LIFF_ID)
         await liff.init({ liffId: NEXT_PUBLIC_LIFF_ID })
       }
-
-      console.info('3', NEXT_PUBLIC_LIFF_ID)
 
       await login()
 
