@@ -5,10 +5,9 @@ import { CallableContext } from 'firebase-functions/v1/https'
 
 const app = async (data: { idToken: string; lineChannelId: string; uid: string }, _: CallableContext) => {
   try {
-    const idToken = data.idToken
-    const lineChannelId = data.lineChannelId
-    const uid = data.uid
-    console.info(idToken, lineChannelId, process.env.FIREBASE_DEBUG_MODE)
+    const { idToken, lineChannelId, uid } = data
+
+    console.info(data, idToken, lineChannelId, process.env.FIREBASE_DEBUG_MODE)
     if (process.env.FIREBASE_DEBUG_MODE !== 'true') {
       const params = new URLSearchParams()
       params.append('id_token', idToken)

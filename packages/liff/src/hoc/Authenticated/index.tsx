@@ -13,7 +13,11 @@ export const Authenticated = () => {
   const { setUser: setUserContext } = useContext(AuthContext)
 
   const login = async (): Promise<void> => {
-    const idToken = liff.getIDToken()!
+    const idToken = liff.getIDToken()
+    if (!idToken) {
+      throw new Error()
+    }
+
     const [lineChannelId, _] = NEXT_PUBLIC_LIFF_ID.split('-')
     const profile = await liff.getProfile()
 
