@@ -1,4 +1,5 @@
 import { LiffMockPlugin } from '@line/liff-mock'
+import { getAuth, onAuthStateChanged, signInWithCustomToken } from 'firebase/auth'
 import Script from 'next/script'
 import { useContext } from 'react'
 
@@ -8,7 +9,19 @@ import { UserRepository } from '~/infra/firebase/Repositories/userRepository'
 const liffId = process.env.NEXT_PUBLIC_LIFF_ID!
 
 export const Authenticated = () => {
+  const auth = getAuth()
   const { setUser: setUserContext } = useContext(AuthContext)
+
+  const login = async (): Promise<void> => {
+    const accessToken = liff.getAccessToken()
+    if (!accessToken) {
+      throw new Error('Cannot get access token')
+    }
+
+    // functionsの呼び出し
+
+    await signInWithCustomToken(auth, accessToken)
+  }
 
   const setUser = async (userUid: string): Promise<void> => {
     const userRepository = new UserRepository()
@@ -39,22 +52,23 @@ export const Authenticated = () => {
         liff.login()
       } else {
         await liff.init({ liffId })
-
-        const accessToken = liff.getAccessToken()
-        if (!accessToken) {
-          throw new Error('Cannot get access token')
-        }
-
-        const response: Response = await fetch(`/api/verify/${accessToken}`)
-        if (response.status === 401) {
-          throw new Error('Unauthenticated')
-        }
+        await login()
       }
 
-      const profile = await liff.getProfile()
-      setUser(profile.userId)
-
-      console.info(profile)
+      onAuthStateChanged(
+        auth,
+        async (user) => {
+          try {
+            if (user) {
+              const profile = await liff.getProfile()
+              await setUser(profile.userId)
+            }
+          } catch (err) {
+            handleError(err)
+          }
+        },
+        (err) => handleError(err)
+      )
     } catch (err) {
       handleError(err)
     }
