@@ -1,13 +1,12 @@
 import { LiffMockPlugin } from '@line/liff-mock'
-import axios from 'axios'
 import { onAuthStateChanged, signInWithCustomToken } from 'firebase/auth'
+import { httpsCallable } from 'firebase/functions'
 import Script from 'next/script'
 import { useContext } from 'react'
 
 import { AuthContext } from '~/contexts/AuthContext'
-import { auth } from '~/infra/firebase'
+import { auth, functions } from '~/infra/firebase'
 import { UserRepository } from '~/infra/firebase/Repositories/userRepository'
-import { NEXT_PUBLIC_AUTH_FUNCTIONS_URL } from '~/utils/secret'
 
 const liffId = process.env.NEXT_PUBLIC_LIFF_ID!
 
@@ -18,11 +17,13 @@ export const Authenticated = () => {
     const idToken = liff.getIDToken()!
     const [lineChannelId, _] = liffId.split('-')
 
-    const verifyResponse = await axios.post(`${NEXT_PUBLIC_AUTH_FUNCTIONS_URL}/verify`, {
+    const verify = httpsCallable(functions, 'auth')
+    const response: any = await verify({
       idToken,
       lineChannelId
     })
-    const token = verifyResponse.data.token
+
+    const token = response.data.token
 
     await signInWithCustomToken(auth, token)
   }
@@ -59,6 +60,7 @@ export const Authenticated = () => {
       }
 
       await login()
+
       onAuthStateChanged(
         auth,
         async (user) => {
