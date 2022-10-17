@@ -16,11 +16,13 @@ export const Authenticated = () => {
   const login = async (): Promise<void> => {
     const idToken = liff.getIDToken()!
     const [lineChannelId, _] = liffId.split('-')
+    const profile = await liff.getProfile()
 
     const verify = httpsCallable(functions, 'auth')
     const response: any = await verify({
       idToken,
-      lineChannelId
+      lineChannelId,
+      uid: profile.userId
     })
 
     const token = response.data.token

@@ -4,17 +4,18 @@ import { auth } from '~/utils/firebase'
 import functions from 'firebase-functions'
 import { CallableContext } from 'firebase-functions/v1/https'
 
-const app = async (data: { idToken: string; lineChannelId: string }, _: CallableContext) => {
+const app = async (data: { idToken: string; lineChannelId: string; uid: string }, _: CallableContext) => {
   try {
     const idToken = data.idToken
     const lineChannelId = data.lineChannelId
+    const uid = data.uid
 
-    const verifyIdToken = await axios.post('https://api.line.me/oauth2/v2.1/verify', {
+    await axios.post('https://api.line.me/oauth2/v2.1/verify', {
       id_token: idToken,
       client_id: lineChannelId
     })
 
-    const token = await auth.createCustomToken(verifyIdToken.data.access_token)
+    const token = await auth.createCustomToken(uid)
 
     return { token }
   } catch {
