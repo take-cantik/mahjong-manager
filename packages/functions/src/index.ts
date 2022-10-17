@@ -8,5 +8,5 @@ if (!process.env.FUNCTION_TARGET || process.env.FUNCTION_TARGET === 'lineBot') {
 }
 
 if (!process.env.FUNCTION_TARGET || process.env.FUNCTION_TARGET === 'auth') {
-  exports.lineBot = require('./triggers/https/auth')
+  exports.auth = require('./triggers/https/auth')
 }
