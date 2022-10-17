@@ -7,15 +7,14 @@ import { useContext } from 'react'
 import { AuthContext } from '~/contexts/AuthContext'
 import { auth, functions } from '~/infra/firebase'
 import { UserRepository } from '~/infra/firebase/Repositories/userRepository'
-
-const liffId = process.env.NEXT_PUBLIC_LIFF_ID!
+import { NEXT_PUBLIC_LIFF_ID } from '~/utils/secret'
 
 export const Authenticated = () => {
   const { setUser: setUserContext } = useContext(AuthContext)
 
   const login = async (): Promise<void> => {
     const idToken = liff.getIDToken()!
-    const [lineChannelId, _] = liffId.split('-')
+    const [lineChannelId, _] = NEXT_PUBLIC_LIFF_ID.split('-')
     const profile = await liff.getProfile()
 
     const verify = httpsCallable(functions, 'auth')
@@ -55,10 +54,10 @@ export const Authenticated = () => {
     try {
       if (process.env.NODE_ENV === 'development') {
         liff.use(new LiffMockPlugin())
-        await liff.init({ liffId, mock: true })
+        await liff.init({ liffId: NEXT_PUBLIC_LIFF_ID, mock: true })
         liff.login()
       } else {
-        await liff.init({ liffId })
+        await liff.init({ liffId: NEXT_PUBLIC_LIFF_ID })
       }
 
       await login()
