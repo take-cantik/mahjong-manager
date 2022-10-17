@@ -10,10 +10,12 @@ const app = async (data: { idToken: string; lineChannelId: string; uid: string }
     const lineChannelId = data.lineChannelId
     const uid = data.uid
 
-    await axios.post('https://api.line.me/oauth2/v2.1/verify', {
-      id_token: idToken,
-      client_id: lineChannelId
-    })
+    if (process.env.NODE_ENV !== 'development') {
+      await axios.post('https://api.line.me/oauth2/v2.1/verify', {
+        id_token: idToken,
+        client_id: lineChannelId
+      })
+    }
 
     const token = await auth.createCustomToken(uid)
 
