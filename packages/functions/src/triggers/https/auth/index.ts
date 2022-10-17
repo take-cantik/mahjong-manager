@@ -1,14 +1,13 @@
 import axios from 'axios'
-import express from 'express'
 import { region, RuntimeOptions } from 'firebase-functions/v1'
 import { auth } from '~/utils/firebase'
+import functions from 'firebase-functions'
+import { CallableContext } from 'firebase-functions/v1/https'
 
-const app = express()
-
-app.post('/verify', async (req, res) => {
+const app = async (data: { idToken: string; lineChannelId: string }, _: CallableContext) => {
   try {
-    const idToken = req.body.idToken as string
-    const lineChannelId = req.body.lineChannelId as string
+    const idToken = data.idToken
+    const lineChannelId = data.lineChannelId
 
     const verifyIdToken = await axios.post('https://api.line.me/oauth2/v2.1/verify', {
       id_token: idToken,
@@ -17,16 +16,15 @@ app.post('/verify', async (req, res) => {
 
     const token = await auth.createCustomToken(verifyIdToken.data.access_token)
 
-    res.send({ token })
-    res.json
+    return { token }
   } catch {
-    res.status(401).send({ message: 'Unauthenticated.' })
+    throw new functions.https.HttpsError('unknown', 'error')
   }
-})
+}
 
 const runtimeOpts: RuntimeOptions = {
   timeoutSeconds: 540,
   memory: '1GB'
 }
 
-module.exports = region('asia-northeast1').runWith(runtimeOpts).https.onRequest(app)
+module.exports = region('asia-northeast1').runWith(runtimeOpts).https.onCall(app)
