@@ -1,10 +1,12 @@
 import { LiffMockPlugin } from '@line/liff-mock'
+import axios from 'axios'
 import { getAuth, onAuthStateChanged, signInWithCustomToken } from 'firebase/auth'
 import Script from 'next/script'
 import { useContext } from 'react'
 
 import { AuthContext } from '~/contexts/AuthContext'
 import { UserRepository } from '~/infra/firebase/Repositories/userRepository'
+import { NEXT_PUBLIC_AUTH_FUNCTIONS_URL } from '~/utils/secret'
 
 const liffId = process.env.NEXT_PUBLIC_LIFF_ID!
 
@@ -13,14 +15,16 @@ export const Authenticated = () => {
   const { setUser: setUserContext } = useContext(AuthContext)
 
   const login = async (): Promise<void> => {
-    const accessToken = liff.getAccessToken()
-    if (!accessToken) {
-      throw new Error('Cannot get access token')
-    }
+    const idToken = liff.getIDToken()!
+    const [lineChannelId, _] = liffId.split('-')
 
-    // functionsの呼び出し
+    const verifyResponse = await axios.post(`${NEXT_PUBLIC_AUTH_FUNCTIONS_URL}/verify`, {
+      idToken,
+      lineChannelId
+    })
+    const token = verifyResponse.data.token
 
-    await signInWithCustomToken(auth, accessToken)
+    await signInWithCustomToken(auth, token)
   }
 
   const setUser = async (userUid: string): Promise<void> => {
@@ -52,16 +56,15 @@ export const Authenticated = () => {
         liff.login()
       } else {
         await liff.init({ liffId })
-        await login()
       }
 
+      await login()
       onAuthStateChanged(
         auth,
         async (user) => {
           try {
             if (user) {
-              const profile = await liff.getProfile()
-              await setUser(profile.userId)
+              await setUser(user.uid)
             }
           } catch (err) {
             handleError(err)
