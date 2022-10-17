@@ -17,12 +17,16 @@ export const Authenticated = () => {
     const [lineChannelId, _] = NEXT_PUBLIC_LIFF_ID.split('-')
     const profile = await liff.getProfile()
 
+    console.info('4', idToken)
+
     const verify = httpsCallable(functions, 'auth')
     const response: any = await verify({
       idToken,
       lineChannelId,
       uid: profile.userId
     })
+
+    console.info('5', response)
 
     const token = response.data.token
 
@@ -58,10 +62,11 @@ export const Authenticated = () => {
         await liff.init({ liffId: NEXT_PUBLIC_LIFF_ID, mock: true })
         liff.login()
       } else {
+        console.info('2', NEXT_PUBLIC_LIFF_ID)
         await liff.init({ liffId: NEXT_PUBLIC_LIFF_ID })
       }
 
-      console.info('2', NEXT_PUBLIC_LIFF_ID)
+      console.info('3', NEXT_PUBLIC_LIFF_ID)
 
       await login()
 
