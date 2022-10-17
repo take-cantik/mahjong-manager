@@ -1,17 +1,17 @@
 import { LiffMockPlugin } from '@line/liff-mock'
 import axios from 'axios'
-import { getAuth, onAuthStateChanged, signInWithCustomToken } from 'firebase/auth'
+import { onAuthStateChanged, signInWithCustomToken } from 'firebase/auth'
 import Script from 'next/script'
 import { useContext } from 'react'
 
 import { AuthContext } from '~/contexts/AuthContext'
+import { auth } from '~/infra/firebase'
 import { UserRepository } from '~/infra/firebase/Repositories/userRepository'
 import { NEXT_PUBLIC_AUTH_FUNCTIONS_URL } from '~/utils/secret'
 
 const liffId = process.env.NEXT_PUBLIC_LIFF_ID!
 
 export const Authenticated = () => {
-  const auth = getAuth()
   const { setUser: setUserContext } = useContext(AuthContext)
 
   const login = async (): Promise<void> => {
