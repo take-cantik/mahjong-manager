@@ -52,6 +52,7 @@ export const Authenticated = () => {
 
   const liffInit = async () => {
     try {
+      console.info(NEXT_PUBLIC_LIFF_ID)
       if (process.env.NODE_ENV === 'development') {
         liff.use(new LiffMockPlugin())
         await liff.init({ liffId: NEXT_PUBLIC_LIFF_ID, mock: true })
