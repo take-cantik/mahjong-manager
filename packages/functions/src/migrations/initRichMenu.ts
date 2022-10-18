@@ -17,7 +17,7 @@ import { LIFF_LINK } from '~/utils/secrets'
         width: 2500,
         height: 843
       },
-      selected: false,
+      selected: true,
       name: 'richMenuInit',
       chatBarText: 'Tap to open',
       areas: [

@@ -7,4 +7,5 @@ export const main = css`
   height: 100vh;
   padding: 40px 16px 60px;
   background: ${colors.black.lighten[5]};
+  overflow-y: scroll;
 `
