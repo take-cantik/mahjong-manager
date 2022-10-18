@@ -19,3 +19,5 @@ export const LINE_MESSAGING_CHANNEL_SECRET = process.env.LINE_MESSAGING_CHANNEL_
 
 // Other
 export const MY_LINE_LINK = process.env.MY_LINE_LINK as string
+
+export const LIFF_LINK = process.env.LIFF_LINK as string
