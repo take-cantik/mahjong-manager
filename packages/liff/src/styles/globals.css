@@ -11,6 +11,10 @@
 
   --white: #ffffff;
 
+  --gold: #ffd700;
+  --silver: #c9caca;
+  --bronze: #815a2b;
+
   color: var(--black);
 
   --montserrat: "Montserrat";

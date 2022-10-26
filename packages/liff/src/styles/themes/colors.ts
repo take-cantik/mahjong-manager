@@ -11,5 +11,8 @@ export const colors = {
       6: 'var(--black-lighten-6)'
     }
   },
-  white: 'var(--white)'
+  white: 'var(--white)',
+  gold: 'var(--gold)',
+  silver: 'var(--silver)',
+  bronze: 'var(--bronze)'
 }
