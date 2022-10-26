@@ -9,6 +9,6 @@ export const common = css`
   justify-content: center;
   align-items: center;
   color: ${colors.white};
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: bold;
 `

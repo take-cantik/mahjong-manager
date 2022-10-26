@@ -1,23 +1,19 @@
 import { css } from '@emotion/react'
 import dynamic from 'next/dynamic'
 import type { ComponentPropsWithRef } from 'react'
-import { useRecoilValue } from 'recoil'
-
-import { gameState } from '~/state/game'
 
 import * as styles from './styles'
 import { createOptions } from './util'
 
 interface ResultChartProps extends ComponentPropsWithRef<'div'> {
+  people: 3 | 4
   rankList: number[]
 }
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
-export const ResultChart = ({ rankList }: ResultChartProps): JSX.Element => {
-  const game = useRecoilValue(gameState)
-
-  const options = createOptions(game.people)
+export const ResultChart = ({ people, rankList }: ResultChartProps): JSX.Element => {
+  const options = createOptions(people)
 
   const series: ApexAxisChartSeries | ApexNonAxisChartSeries = [
     {
@@ -28,7 +24,7 @@ export const ResultChart = ({ rankList }: ResultChartProps): JSX.Element => {
 
   const wrapper = css`
     ${styles.common};
-    ${game.people === 4 ? styles.four : styles.three};
+    ${people === 4 ? styles.four : styles.three};
   `
 
   return (

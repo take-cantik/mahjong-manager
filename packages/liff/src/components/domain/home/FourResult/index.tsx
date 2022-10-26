@@ -14,7 +14,7 @@ export const FourResult = () => {
   return (
     <>
       <Profile name={user!.name} rate={user!.fourRecord.rate} />
-      <ResultTransition rankList={user!.fourRecord.rankHistory} />
+      <ResultTransition people={4} rankList={user!.fourRecord.rankHistory} />
       <ResultDetail recordList={recordList} />
     </>
   )

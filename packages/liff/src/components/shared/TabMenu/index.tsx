@@ -1,21 +1,24 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
-import { gameState } from '~/state/game'
+import { menuState } from '~/state/menu'
 
 import { TabButton } from '../TabButton'
 import * as styles from './styles'
 
 export const TabMenu = () => {
-  const game = useRecoilValue(gameState)
-  const setGameState = useSetRecoilState(gameState)
+  const menu = useRecoilValue(menuState)
+  const setMenuState = useSetRecoilState(menuState)
 
   return (
     <menu css={styles.common}>
-      <TabButton active={game.people === 4} onClick={() => setGameState({ people: 4 })}>
+      <TabButton active={menu.state === '4'} onClick={() => setMenuState({ state: '4' })}>
         四人麻雀
       </TabButton>
-      <TabButton active={game.people === 3} onClick={() => setGameState({ people: 3 })}>
+      <TabButton active={menu.state === '3'} onClick={() => setMenuState({ state: '3' })}>
         三人麻雀
+      </TabButton>
+      <TabButton active={menu.state === 'ranking'} onClick={() => setMenuState({ state: 'ranking' })}>
+        ランキング
       </TabButton>
     </menu>
   )

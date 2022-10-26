@@ -3,16 +3,18 @@ import { useRecoilValue } from 'recoil'
 import { FourResult } from '~/components/domain/home/FourResult'
 import { ThreeResult } from '~/components/domain/home/ThreeResult'
 import { TabMenu } from '~/components/shared/TabMenu'
-import { gameState } from '~/state/game'
+import { menuState } from '~/state/menu'
 
 import * as styles from './styles'
 
 export const HomeTemplate = () => {
-  const game = useRecoilValue(gameState)
+  const menu = useRecoilValue(menuState)
 
   return (
     <>
-      <main css={styles.main}>{game.people === 4 ? <FourResult /> : <ThreeResult />}</main>
+      <main css={styles.main}>
+        {menu.state === '4' ? <FourResult /> : menu.state === '3' ? <ThreeResult /> : <p>Ranking</p>}
+      </main>
       <TabMenu />
     </>
   )

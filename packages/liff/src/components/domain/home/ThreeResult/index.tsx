@@ -14,7 +14,7 @@ export const ThreeResult = () => {
   return (
     <>
       <Profile name={user!.name} rate={user!.threeRecord.rate} />
-      <ResultTransition rankList={user!.threeRecord.rankHistory} />
+      <ResultTransition people={3} rankList={user!.threeRecord.rankHistory} />
       <ResultDetail recordList={recordList} />
     </>
   )
