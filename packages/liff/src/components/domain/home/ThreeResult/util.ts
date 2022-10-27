@@ -1,5 +1,5 @@
 import type { InformationProps } from '~/components/shared/Information'
-import type { ThreeRecord } from '~/shared/Domain/user'
+import type { ThreeRecord } from '~/shared/types/user'
 
 const mathRound = (num: number) => {
   return Math.floor(num * 100) / 100
