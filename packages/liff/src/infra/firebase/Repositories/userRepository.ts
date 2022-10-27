@@ -1,4 +1,4 @@
-import { doc, getDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, query } from 'firebase/firestore'
 
 import type { User } from '~/shared/types/user'
 
@@ -18,5 +18,22 @@ export class UserRepository {
       threeRecord: response.data().threeRecord,
       fourRecord: response.data().fourRecord
     }
+  }
+
+  async getUserList(): Promise<User[]> {
+    const response = await getDocs(query(collection(firestore, 'users')))
+
+    const userList: User[] = []
+
+    response.forEach((doc) => {
+      userList.push({
+        lineId: doc.data().lineId,
+        name: doc.data().name,
+        threeRecord: doc.data().threeRecord,
+        fourRecord: doc.data().fourRecord
+      })
+    })
+
+    return userList
   }
 }
