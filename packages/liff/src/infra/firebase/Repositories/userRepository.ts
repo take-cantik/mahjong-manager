@@ -26,6 +26,10 @@ export class UserRepository {
     const userList: User[] = []
 
     response.forEach((doc) => {
+      if (doc.data().lineId === '123456789') {
+        return
+      }
+
       userList.push({
         lineId: doc.data().lineId,
         name: doc.data().name,
