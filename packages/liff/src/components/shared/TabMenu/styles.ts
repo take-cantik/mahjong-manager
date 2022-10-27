@@ -11,9 +11,9 @@ export const common = css`
   &::after {
     content: '';
     width: 100%;
-    height: 30px;
+    height: 34px;
     position: absolute;
-    bottom: -30px;
+    bottom: -34px;
     background: ${colors.black.lighten[5]};
   }
 `
