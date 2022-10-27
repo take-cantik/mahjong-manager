@@ -8,19 +8,45 @@ export class UserRepository implements UserRepositoryInterface {
     try {
       const res = await db.collection('users').doc(lineId).get()
       const data = res.data()
-      if (data) {
-        return {
+      if (!data) {
+        return null
+      }
+
+      return {
+        lineId: data.lineId,
+        name: data.name,
+        threeRecord: data.threeRecord,
+        fourRecord: data.fourRecord
+      }
+    } catch (err) {
+      errorLogger(err)
+      throw new Error('getUser')
+    }
+  }
+
+  async getUserList(): Promise<User[]> {
+    try {
+      const res = await db.collection('users').get()
+      const userList: User[] = []
+
+      res.forEach((doc) => {
+        const data = doc.data()
+        if (data.lineId === '123456789') {
+          return
+        }
+
+        userList.push({
           lineId: data.lineId,
           name: data.name,
           threeRecord: data.threeRecord,
           fourRecord: data.fourRecord
-        }
-      }
+        })
+      })
 
-      return null
+      return userList
     } catch (err) {
       errorLogger(err)
-      throw new Error('getUser')
+      throw new Error('getUserList')
     }
   }
 
