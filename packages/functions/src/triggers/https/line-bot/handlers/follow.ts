@@ -15,6 +15,7 @@ export const followHandler = async (event: FollowEvent): Promise<void> => {
       name: user.displayName,
       threeRecord: {
         rate: 1600,
+        lastWeekRate: 1600,
         rankHistory: [],
         gameCount: 0,
         rankCount: 0,
@@ -25,6 +26,7 @@ export const followHandler = async (event: FollowEvent): Promise<void> => {
       },
       fourRecord: {
         rate: 1600,
+        lastWeekRate: 1600,
         rankHistory: [],
         gameCount: 0,
         rankCount: 0,

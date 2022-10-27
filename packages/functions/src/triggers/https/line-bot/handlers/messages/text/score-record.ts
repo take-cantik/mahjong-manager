@@ -63,6 +63,7 @@ export const scoreRecordHandler = async (props: Props) => {
             name: user.displayName,
             threeRecord: {
               rate: 1600,
+              lastWeekRate: 1600,
               rankHistory: [],
               gameCount: 0,
               rankCount: 0,
@@ -73,6 +74,7 @@ export const scoreRecordHandler = async (props: Props) => {
             },
             fourRecord: {
               rate: 1600,
+              lastWeekRate: 1600,
               rankHistory: [],
               gameCount: 0,
               rankCount: 0,
