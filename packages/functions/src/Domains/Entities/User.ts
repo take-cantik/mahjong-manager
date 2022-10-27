@@ -3,6 +3,7 @@ export interface User {
   name: string
   threeRecord: {
     rate: number
+    lastWeekRate: number
     rankHistory: number[]
     gameCount: number
     rankCount: number
@@ -13,6 +14,7 @@ export interface User {
   }
   fourRecord: {
     rate: number
+    lastWeekRate: number
     rankHistory: number[]
     gameCount: number
     rankCount: number

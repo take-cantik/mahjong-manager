@@ -1,5 +1,6 @@
 export interface ThreeRecord {
   rate: number;
+  lastWeekRate: number;
   rankHistory: number[];
   gameCount: number;
   rankCount: number;
@@ -11,6 +12,7 @@ export interface ThreeRecord {
 
 export interface FourRecord {
   rate: number;
+  lastWeekRate: number;
   rankHistory: number[];
   gameCount: number;
   rankCount: number;
