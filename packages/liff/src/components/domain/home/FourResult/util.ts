@@ -1,5 +1,5 @@
 import type { InformationProps } from '~/components/shared/Information'
-import type { FourRecord } from '~/shared/Domain/user'
+import type { FourRecord } from '~/shared/types/user'
 
 const mathRound = (num: number) => {
   return Math.floor(num * 100) / 100
