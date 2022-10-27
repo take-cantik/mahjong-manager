@@ -10,3 +10,10 @@ if (!process.env.FUNCTION_TARGET || process.env.FUNCTION_TARGET === 'lineBot') {
 if (!process.env.FUNCTION_TARGET || process.env.FUNCTION_TARGET === 'auth') {
   exports.auth = require('./triggers/https/auth')
 }
+
+// ------------
+// pubsub
+
+if (!process.env.FUNCTION_TARGET || process.env.FUNCTION_TARGET === 'notification') {
+  exports.notification = require('./triggers/pubsub/line-bot')
+}
