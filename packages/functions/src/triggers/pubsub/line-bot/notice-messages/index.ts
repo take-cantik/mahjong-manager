@@ -10,7 +10,7 @@ export const msgWeeklyNotification = (
   const fourDiffStr = fourDiff >= 0 ? `+${fourDiff}` : `${fourDiff}`
 
   const threeDiff = threeCurrentRate - threeLastWeekRate
-  const threeDiffStr = fourDiff >= 0 ? `+${threeDiff}` : `${threeDiff}`
+  const threeDiffStr = threeDiff >= 0 ? `+${threeDiff}` : `${threeDiff}`
 
   return {
     type: 'flex',
@@ -47,16 +47,12 @@ export const msgWeeklyNotification = (
           },
           {
             type: 'text',
-            margin: 'lg',
-            text: '現在のレート'
-          },
-          {
-            type: 'text',
             align: 'center',
             wrap: true,
             margin: 'xl',
-            size: 'lg',
-            text: `${fourCurrentRate}`
+            size: 'xl',
+            text: `${fourLastWeekRate} → ${fourCurrentRate}`,
+            weight: 'bold'
           },
           {
             type: 'text',
@@ -79,16 +75,12 @@ export const msgWeeklyNotification = (
           },
           {
             type: 'text',
-            margin: 'lg',
-            text: '現在のレート'
-          },
-          {
-            type: 'text',
             align: 'center',
             wrap: true,
             margin: 'xl',
-            size: 'lg',
-            text: `${threeCurrentRate}`
+            size: 'xl',
+            text: `${threeLastWeekRate} → ${threeCurrentRate}`,
+            weight: 'bold'
           },
           {
             type: 'text',
