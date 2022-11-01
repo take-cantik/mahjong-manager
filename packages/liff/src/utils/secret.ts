@@ -8,6 +8,4 @@ export const NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = process.env.NEXT_PUBLIC_
 export const NEXT_PUBLIC_FIREBASE_APP_ID = process.env.NEXT_PUBLIC_FIREBASE_APP_ID as string
 export const NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID = process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID as string
 
-export const MY_LINE_LINK = process.env.MY_LINE_LINK as string
-
-export const NEXT_PUBLIC_AUTH_FUNCTIONS_URL = process.env.NEXT_PUBLIC_AUTH_FUNCTIONS_URL as string
+export const NEXT_PUBLIC_MY_LINE_LINK = process.env.NEXT_PUBLIC_MY_LINE_LINK as string
