@@ -12,6 +12,7 @@ export const colors = {
     }
   },
   white: 'var(--white)',
+  red: 'var(--red)',
   gold: 'var(--gold)',
   silver: 'var(--silver)',
   bronze: 'var(--bronze)'

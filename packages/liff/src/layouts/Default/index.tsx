@@ -1,47 +1,21 @@
-import { css } from '@emotion/react'
 import type { FC } from 'react'
 import { useContext } from 'react'
 
+import { Error } from '~/components/shared/Error'
 import { Loader } from '~/components/shared/Loader'
 import { AuthContext } from '~/contexts/AuthContext'
 
 import type { LayoutProps } from '../types'
-
-const main = css`
-  margin: 'auto';
-  max-width: '600';
-  height: '100vh';
-  min-height: '100vh';
-`
+import * as styles from './styles'
 
 export const DefaultLayout: FC<LayoutProps> = ({ children }) => {
   const { isError, isLogIn } = useContext(AuthContext)
 
-  if (isError) {
-    return (
-      <div style={{ margin: 'auto', maxWidth: '600', height: '100vh', minHeight: '100vh', paddingBottom: 2 }}>
-        <div
-          style={{
-            position: 'fixed',
-            left: 0,
-            top: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            height: '100%'
-          }}
-        >
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ marginBottom: 2, color: '#ff0000' }}>ログインに失敗しました</div>
-            <a href="https://twitter.com/take_cantik">
-              <div style={{ textDecoration: 'underline' }}>みきおだへ</div>
-            </a>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  return <main css={main}>{isLogIn ? children : <Loader />}</main>
+  return (
+    <div css={styles.common}>
+      {isError && <Error />}
+      {!isError && !isLogIn && <Loader />}
+      {!isError && isLogIn && children}
+    </div>
+  )
 }
