@@ -2,6 +2,7 @@ import { FlexComponent, FlexMessage } from '@line/bot-sdk'
 import { ScoreResult } from '~/Domains/Entities/Result'
 import { postbackData } from '~/utils/postback'
 import { showRate } from '~/utils/rate'
+import { LIFF_LINK } from '~/utils/secrets'
 import { RateResult } from '../handlers/postbacks/confirm'
 
 export const msgSelectGame = (docId: string, uuid: string): FlexMessage => {
@@ -179,6 +180,21 @@ export const msgRateResult = (rateResultList: RateResult[]): FlexMessage => {
       align: 'center',
       margin: 'xl'
     })
+  })
+
+  bodyContents.push({
+    type: 'separator',
+    margin: 'xl'
+  })
+
+  bodyContents.push({
+    type: 'button',
+    action: {
+      type: 'uri',
+      label: '自分の戦歴を確認する',
+      uri: `${LIFF_LINK}`
+    },
+    color: '#52B14D'
   })
 
   return {
