@@ -194,7 +194,9 @@ export const msgRateResult = (rateResultList: RateResult[]): FlexMessage => {
       label: '自分の戦歴を確認する',
       uri: `${LIFF_LINK}`
     },
-    color: '#52B14D'
+    color: '#52B14D',
+    style: 'secondary',
+    margin: 'lg'
   })
 
   return {
