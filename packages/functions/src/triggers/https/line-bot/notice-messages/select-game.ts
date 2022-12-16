@@ -195,7 +195,7 @@ export const msgRateResult = (rateResultList: RateResult[]): FlexMessage => {
       uri: `${LIFF_LINK}`
     },
     color: '#52B14D',
-    style: 'secondary',
+    style: 'primary',
     margin: 'lg'
   })
 
